@@ -1,3 +1,5 @@
+import 'package:bouldee/app/routing/app_router.dart';
+import 'package:bouldee/app/theme/app_theme.dart';
 import 'package:bouldee/l10n/l10n.dart';
 import 'package:flutter/material.dart';
 
@@ -6,16 +8,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        appBarTheme: AppBarTheme(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        ),
-        useMaterial3: true,
-      ),
+    final router = AppRouter();
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.theme,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const Placeholder(),
+      routerConfig: router.config(),
     );
   }
 }
