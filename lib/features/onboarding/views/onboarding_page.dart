@@ -1,8 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
+import 'package:bouldee/app/constants/app_media_resources.dart';
 import 'package:bouldee/app/extensions/context_extensions.dart';
+import 'package:bouldee/app/routing/app_router.gr.dart';
 import 'package:bouldee/app/widgets/app_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 @RoutePage()
 class OnboardingPage extends StatelessWidget {
@@ -18,6 +21,29 @@ class OnboardingPage extends StatelessWidget {
             child: Image.asset(
               'assets/images/bouldee_onboarding.png',
               fit: BoxFit.fitHeight,
+            ),
+          ),
+          Positioned(
+            top: 16,
+            left: 32,
+            child: SafeArea(
+              child: Row(
+                spacing: 8,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SvgPicture.asset(
+                    AppMediaRes.appLogo,
+                    width: 30,
+                    height: 30,
+                  ),
+                  Text(
+                    'bouldee',
+                    style: context.textTheme.headlineMedium?.copyWith(
+                      color: AppColors.textLight,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Positioned(
@@ -44,7 +70,9 @@ class OnboardingPage extends StatelessWidget {
                   children: [
                     AppButton(
                       text: 'Get Started',
-                      onPressed: () {},
+                      onPressed: () {
+                        context.router.push(const SignUpRoute());
+                      },
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -56,7 +84,9 @@ class OnboardingPage extends StatelessWidget {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.router.push(const SignInRoute());
+                          },
                           child: Text(
                             'Sign In',
                             style: context.textTheme.labelMedium?.copyWith(
