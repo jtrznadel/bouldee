@@ -1,7 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
 import 'package:bouldee/app/extensions/context_extensions.dart';
+import 'package:bouldee/app/widgets/app_circular_progress_indicator.dart';
+import 'package:bouldee/app/widgets/app_tile.dart';
 import 'package:bouldee/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:bouldee/features/home/presentation/widgets/activity_chart.dart';
+import 'package:bouldee/features/home/presentation/widgets/home_last_session.dart';
+import 'package:bouldee/features/home/presentation/widgets/home_mini_stats.dart';
+import 'package:bouldee/features/home/presentation/widgets/stats_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -70,12 +76,16 @@ class HomePage extends StatelessWidget {
       body: const SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: 30,
+            horizontal: 15,
             vertical: 10,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 10,
+            children: [
+              HomeMiniStats(),
+              HomeLastSession(),
+            ],
           ),
         ),
       ),

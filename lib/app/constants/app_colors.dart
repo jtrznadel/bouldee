@@ -18,4 +18,6 @@ class AppColors {
   static const errorColor = Color(0xFFE57373);
 
   static const borderColor = Color(0xFFE0E0E0);
+
+  static const tileColor = secondary;
 }

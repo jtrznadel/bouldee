@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
 import 'package:bouldee/app/routing/app_router.gr.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -13,6 +14,10 @@ class NavigationWrapperPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return AutoTabsRouter(
       routes: const [
+        HomeRoute(),
+        HomeRoute(),
+        HomeRoute(),
+        HomeRoute(),
         HomeRoute(),
       ],
       builder: (context, child) {
@@ -62,14 +67,12 @@ class AppNavigationBottomBar extends StatelessWidget {
                   onPressed: () => tabsRouter.setActiveIndex(0),
                 ),
                 NavigationBarItem(
-                  iconData: LucideIcons.compass,
+                  iconData: LucideIcons.map,
                   onPressed: () => tabsRouter.setActiveIndex(1),
                 ),
-                const SizedBox(
-                  height: 62,
-                ),
+                const SizedBox(width: 64),
                 NavigationBarItem(
-                  iconData: LucideIcons.route,
+                  iconData: LucideIcons.chartNoAxesCombined,
                   onPressed: () => tabsRouter.setActiveIndex(3),
                 ),
                 NavigationBarItem(
@@ -97,9 +100,9 @@ class AppNavigationBottomBar extends StatelessWidget {
                 child: const FittedBox(
                   fit: BoxFit.scaleDown,
                   child: Icon(
-                    LucideIcons.brain,
+                    LucideIcons.route,
                     size: 36,
-                    color: AppColors.primary,
+                    color: AppColors.tileColor,
                   ),
                 ),
               ),
