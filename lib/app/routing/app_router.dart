@@ -12,7 +12,7 @@ class AppRouter extends RootStackRouter {
           guards: [AuthGuard()],
           children: [
             AutoRoute(page: HomeRoute.page),
-            AutoRoute(page: ClubInteractiveMapRoute.page),
+            AutoRoute(page: ClubMapRoute.page),
           ],
         ),
         AutoRoute(page: OnboardingRoute.page),

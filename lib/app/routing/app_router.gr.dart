@@ -15,25 +15,51 @@ import 'package:bouldee/features/auth/presentation/views/sign_in_page.dart'
     as _i5;
 import 'package:bouldee/features/auth/presentation/views/sign_up_page.dart'
     as _i6;
-import 'package:bouldee/features/club_interactive_map/presentation/club_interactive_map_page.dart'
+import 'package:bouldee/features/club_map/presentation/club_map_page.dart'
     as _i1;
 import 'package:bouldee/features/home/presentation/views/home_page.dart' as _i2;
 import 'package:bouldee/features/onboarding/views/onboarding_page.dart' as _i4;
+import 'package:flutter/material.dart' as _i8;
 
 /// generated route for
-/// [_i1.ClubInteractiveMapPage]
-class ClubInteractiveMapRoute extends _i7.PageRouteInfo<void> {
-  const ClubInteractiveMapRoute({List<_i7.PageRouteInfo>? children})
-    : super(ClubInteractiveMapRoute.name, initialChildren: children);
+/// [_i1.ClubMapPage]
+class ClubMapRoute extends _i7.PageRouteInfo<ClubMapRouteArgs> {
+  ClubMapRoute({
+    required String clubId,
+    _i8.Key? key,
+    List<_i7.PageRouteInfo>? children,
+  }) : super(
+         ClubMapRoute.name,
+         args: ClubMapRouteArgs(clubId: clubId, key: key),
+         rawPathParams: {'clubId': clubId},
+         initialChildren: children,
+       );
 
-  static const String name = 'ClubInteractiveMapRoute';
+  static const String name = 'ClubMapRoute';
 
   static _i7.PageInfo page = _i7.PageInfo(
     name,
     builder: (data) {
-      return const _i1.ClubInteractiveMapPage();
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<ClubMapRouteArgs>(
+        orElse: () => ClubMapRouteArgs(clubId: pathParams.getString('clubId')),
+      );
+      return _i1.ClubMapPage(clubId: args.clubId, key: args.key);
     },
   );
+}
+
+class ClubMapRouteArgs {
+  const ClubMapRouteArgs({required this.clubId, this.key});
+
+  final String clubId;
+
+  final _i8.Key? key;
+
+  @override
+  String toString() {
+    return 'ClubMapRouteArgs{clubId: $clubId, key: $key}';
+  }
 }
 
 /// generated route for
