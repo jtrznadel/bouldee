@@ -15,7 +15,7 @@ class NavigationWrapperPage extends StatelessWidget {
     return AutoTabsRouter(
       routes: const [
         HomeRoute(),
-        HomeRoute(),
+        ClubInteractiveMapRoute(),
         HomeRoute(),
         HomeRoute(),
         HomeRoute(),
