@@ -9,25 +9,27 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i7;
-import 'package:bouldee/app/views/navigation_wrapper_page.dart' as _i3;
+import 'package:auto_route/auto_route.dart' as _i8;
+import 'package:bouldee/app/views/navigation_wrapper_page.dart' as _i4;
 import 'package:bouldee/features/auth/presentation/views/sign_in_page.dart'
-    as _i5;
-import 'package:bouldee/features/auth/presentation/views/sign_up_page.dart'
     as _i6;
+import 'package:bouldee/features/auth/presentation/views/sign_up_page.dart'
+    as _i7;
 import 'package:bouldee/features/club_map/presentation/club_map_page.dart'
     as _i1;
-import 'package:bouldee/features/home/presentation/views/home_page.dart' as _i2;
-import 'package:bouldee/features/onboarding/views/onboarding_page.dart' as _i4;
-import 'package:flutter/material.dart' as _i8;
+import 'package:bouldee/features/home/presentation/views/home_page.dart' as _i3;
+import 'package:bouldee/features/onboarding/views/onboarding_page.dart' as _i5;
+import 'package:bouldee/features/training_session/presentation/current_training_session_page.dart'
+    as _i2;
+import 'package:flutter/material.dart' as _i9;
 
 /// generated route for
 /// [_i1.ClubMapPage]
-class ClubMapRoute extends _i7.PageRouteInfo<ClubMapRouteArgs> {
+class ClubMapRoute extends _i8.PageRouteInfo<ClubMapRouteArgs> {
   ClubMapRoute({
     required String clubId,
-    _i8.Key? key,
-    List<_i7.PageRouteInfo>? children,
+    _i9.Key? key,
+    List<_i8.PageRouteInfo>? children,
   }) : super(
          ClubMapRoute.name,
          args: ClubMapRouteArgs(clubId: clubId, key: key),
@@ -37,7 +39,7 @@ class ClubMapRoute extends _i7.PageRouteInfo<ClubMapRouteArgs> {
 
   static const String name = 'ClubMapRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
       final pathParams = data.inheritedPathParams;
@@ -54,7 +56,7 @@ class ClubMapRouteArgs {
 
   final String clubId;
 
-  final _i8.Key? key;
+  final _i9.Key? key;
 
   @override
   String toString() {
@@ -63,81 +65,97 @@ class ClubMapRouteArgs {
 }
 
 /// generated route for
-/// [_i2.HomePage]
-class HomeRoute extends _i7.PageRouteInfo<void> {
-  const HomeRoute({List<_i7.PageRouteInfo>? children})
+/// [_i2.CurrentTrainingSessionPage]
+class CurrentTrainingSessionRoute extends _i8.PageRouteInfo<void> {
+  const CurrentTrainingSessionRoute({List<_i8.PageRouteInfo>? children})
+    : super(CurrentTrainingSessionRoute.name, initialChildren: children);
+
+  static const String name = 'CurrentTrainingSessionRoute';
+
+  static _i8.PageInfo page = _i8.PageInfo(
+    name,
+    builder: (data) {
+      return const _i2.CurrentTrainingSessionPage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i3.HomePage]
+class HomeRoute extends _i8.PageRouteInfo<void> {
+  const HomeRoute({List<_i8.PageRouteInfo>? children})
     : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i2.HomePage();
+      return const _i3.HomePage();
     },
   );
 }
 
 /// generated route for
-/// [_i3.NavigationWrapperPage]
-class NavigationWrapperRoute extends _i7.PageRouteInfo<void> {
-  const NavigationWrapperRoute({List<_i7.PageRouteInfo>? children})
+/// [_i4.NavigationWrapperPage]
+class NavigationWrapperRoute extends _i8.PageRouteInfo<void> {
+  const NavigationWrapperRoute({List<_i8.PageRouteInfo>? children})
     : super(NavigationWrapperRoute.name, initialChildren: children);
 
   static const String name = 'NavigationWrapperRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i3.NavigationWrapperPage();
+      return const _i4.NavigationWrapperPage();
     },
   );
 }
 
 /// generated route for
-/// [_i4.OnboardingPage]
-class OnboardingRoute extends _i7.PageRouteInfo<void> {
-  const OnboardingRoute({List<_i7.PageRouteInfo>? children})
+/// [_i5.OnboardingPage]
+class OnboardingRoute extends _i8.PageRouteInfo<void> {
+  const OnboardingRoute({List<_i8.PageRouteInfo>? children})
     : super(OnboardingRoute.name, initialChildren: children);
 
   static const String name = 'OnboardingRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i4.OnboardingPage();
+      return const _i5.OnboardingPage();
     },
   );
 }
 
 /// generated route for
-/// [_i5.SignInPage]
-class SignInRoute extends _i7.PageRouteInfo<void> {
-  const SignInRoute({List<_i7.PageRouteInfo>? children})
+/// [_i6.SignInPage]
+class SignInRoute extends _i8.PageRouteInfo<void> {
+  const SignInRoute({List<_i8.PageRouteInfo>? children})
     : super(SignInRoute.name, initialChildren: children);
 
   static const String name = 'SignInRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i5.SignInPage();
+      return const _i6.SignInPage();
     },
   );
 }
 
 /// generated route for
-/// [_i6.SignUpPage]
-class SignUpRoute extends _i7.PageRouteInfo<void> {
-  const SignUpRoute({List<_i7.PageRouteInfo>? children})
+/// [_i7.SignUpPage]
+class SignUpRoute extends _i8.PageRouteInfo<void> {
+  const SignUpRoute({List<_i8.PageRouteInfo>? children})
     : super(SignUpRoute.name, initialChildren: children);
 
   static const String name = 'SignUpRoute';
 
-  static _i7.PageInfo page = _i7.PageInfo(
+  static _i8.PageInfo page = _i8.PageInfo(
     name,
     builder: (data) {
-      return const _i6.SignUpPage();
+      return const _i7.SignUpPage();
     },
   );
 }

@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
 import 'package:bouldee/app/routing/app_router.gr.dart';
+import 'package:bouldee/features/training_session/presentation/create_training_session_modal.dart';
 import 'package:flutter/material.dart';
 
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -15,7 +16,6 @@ class NavigationWrapperPage extends StatelessWidget {
       routes: [
         const HomeRoute(),
         ClubMapRoute(clubId: '056d0a80-b0aa-42ae-b21e-3f574da0f6f8'),
-        const HomeRoute(),
         const HomeRoute(),
         const HomeRoute(),
       ],
@@ -37,6 +37,7 @@ class AppNavigationBottomBar extends StatelessWidget {
   const AppNavigationBottomBar({required this.tabsRouter, super.key});
 
   final TabsRouter tabsRouter;
+  final bool sessionActive = false;
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +90,9 @@ class AppNavigationBottomBar extends StatelessWidget {
             color: AppColors.primary,
             child: InkWell(
               borderRadius: BorderRadius.circular(10),
-              onTap: () => tabsRouter.setActiveIndex(2),
+              onTap: () {
+                _handleRouteTap(context);
+              },
               child: Container(
                 width: 64,
                 height: 64,
@@ -110,6 +113,19 @@ class AppNavigationBottomBar extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _handleRouteTap(BuildContext context) {
+    if (sessionActive) {
+      context.router.push(const CurrentTrainingSessionRoute());
+    } else {
+      showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => const CreateTrainingSessionModal(),
+      );
+    }
   }
 }
 
