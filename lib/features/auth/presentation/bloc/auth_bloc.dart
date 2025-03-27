@@ -8,7 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-@singleton
+@injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this._authRepository) : super(AuthInitial()) {
     on<AuthInitialCheck>(_initCheck);
