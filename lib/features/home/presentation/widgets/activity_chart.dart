@@ -82,10 +82,10 @@ class ActivityChart extends StatelessWidget {
                   colors: [
                     AppColors.primary.withOpacity(
                       0.7,
-                    ), // Changed from withValues to withOpacity
+                    ),
                     AppColors.primary.withOpacity(
                       0.1,
-                    ), // Changed from withValues to withOpacity
+                    ),
                   ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,

@@ -27,7 +27,7 @@ class TrainingSessionModel extends TrainingSessionEntity {
 
   factory TrainingSessionModel.fromJson(Map<String, dynamic> json) {
     return TrainingSessionModel(
-      id: json['id'] as String,
+      id: json['_id'] as String,
       startTime: DateTime.parse(json['start_time'] as String),
       endTime: json['end_time'] != null
           ? DateTime.parse(json['end_time'] as String)
@@ -48,7 +48,7 @@ class TrainingSessionModel extends TrainingSessionEntity {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      '_id': id,
       'start_time': startTime.toIso8601String(),
       'end_time': endTime?.toIso8601String(),
       'is_active': isActive,

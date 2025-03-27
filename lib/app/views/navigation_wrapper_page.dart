@@ -116,7 +116,6 @@ class AppNavigationBottomBar extends StatelessWidget {
   }
 
   void _handleRouteTap(BuildContext context) {
-    // Używamy nowej klasy do sprawdzenia stanu sesji
     ActiveSessionChecker.checkAndNavigate(context);
   }
 }

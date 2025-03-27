@@ -61,7 +61,7 @@ class TrainingSessionRemoteDataSourceImpl
         })
         .select()
         .single();
-
+    print('Response: $response');
     return TrainingSessionModel.fromJson(response);
   }
 
@@ -70,7 +70,7 @@ class TrainingSessionRemoteDataSourceImpl
     await _supabaseClient.from('sessions').update({
       'is_active': false,
       'end_time': DateTime.now().toIso8601String(),
-    }).eq('id', sessionId);
+    }).eq('_id', sessionId);
   }
 
   @override
@@ -127,7 +127,7 @@ class TrainingSessionRemoteDataSourceImpl
     final response = await _supabaseClient
         .from('sessions')
         .select('*, session_boulders(*)')
-        .eq('id', sessionId)
+        .eq('_id', sessionId)
         .single();
 
     return TrainingSessionModel.fromJson(response);
@@ -141,7 +141,7 @@ class TrainingSessionRemoteDataSourceImpl
     }
 
     await _supabaseClient.from('sessions').insert({
-      'id': session.id,
+      '_id': session.id,
       'user_id': userId,
       'start_time': session.startTime.toIso8601String(),
       'end_time': session.endTime?.toIso8601String(),
@@ -153,7 +153,7 @@ class TrainingSessionRemoteDataSourceImpl
     for (final boulder in session.boulders) {
       final boulderModel = boulder as BoulderModel;
       await _supabaseClient.from('session_boulders').insert({
-        'id': boulderModel.id,
+        '_id': boulderModel.id,
         'session_id': session.id,
         'boulder_id': boulderModel.boulderId,
         'status': boulderModel.status.toString().split('.').last,
@@ -173,7 +173,7 @@ class TrainingSessionRemoteDataSourceImpl
       'is_active': session.isActive,
       'device_id': session.deviceId,
       'pending_sync': false,
-    }).eq('id', session.id);
+    }).eq('_id', session.id);
 
     for (final boulder in session.boulders) {
       final boulderModel = boulder as BoulderModel;
@@ -190,10 +190,10 @@ class TrainingSessionRemoteDataSourceImpl
           'attempts': boulderModel.attempts,
           'notes': boulderModel.notes,
           'pending_sync': false,
-        }).eq('id', boulderModel.id);
+        }).eq('_id', boulderModel.id);
       } else {
         await _supabaseClient.from('session_boulders').insert({
-          'id': boulderModel.id,
+          '_id': boulderModel.id,
           'session_id': session.id,
           'boulder_id': boulderModel.boulderId,
           'status': boulderModel.status.toString().split('.').last,

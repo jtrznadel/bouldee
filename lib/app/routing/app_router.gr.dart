@@ -19,7 +19,7 @@ import 'package:bouldee/features/club_map/presentation/club_map_page.dart'
     as _i1;
 import 'package:bouldee/features/home/presentation/views/home_page.dart' as _i3;
 import 'package:bouldee/features/onboarding/views/onboarding_page.dart' as _i5;
-import 'package:bouldee/features/training_session/presentation/idea.dart'
+import 'package:bouldee/features/training_session/presentation/current_training_session_page.dart'
     as _i2;
 import 'package:flutter/material.dart' as _i9;
 

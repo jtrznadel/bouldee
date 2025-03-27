@@ -100,6 +100,7 @@ class TrainingSessionRepositoryImpl implements TrainingSessionRepository {
     try {
       if (_isOnline) {
         final remoteSession = await _remoteDataSource.startSession();
+        print('Remote session: $remoteSession');
         await _localDataSource.cacheSession(remoteSession);
         return Right(remoteSession);
       } else {

@@ -5,14 +5,10 @@ import 'package:bouldee/features/auth/presentation/bloc/auth_bloc.dart' as auth;
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  bootstrap(
-    () => MultiBlocProvider(
-      providers: [
-        BlocProvider.value(
-          value: getIt.get<auth.AuthBloc>()..add(auth.AuthInitialCheck()),
-        ),
-      ],
+  bootstrap(() async {
+    return BlocProvider(
+      create: (context) => getIt<auth.AuthBloc>()..add(auth.AuthInitialCheck()),
       child: const App(),
-    ),
-  );
+    );
+  });
 }

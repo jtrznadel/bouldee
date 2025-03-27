@@ -92,18 +92,19 @@ class CurrentTrainingSessionPage extends StatelessWidget {
                       onPressed: () {
                         showDialog(
                           context: context,
-                          builder: (context) => AlertDialog(
+                          builder: (dialogContext) => AlertDialog(
                             title: const Text('End Session?'),
                             content: const Text(
-                                'Are you sure you want to end this training session?'),
+                              'Are you sure you want to end this training session?',
+                            ),
                             actions: [
                               TextButton(
-                                onPressed: () => Navigator.pop(context),
+                                onPressed: () => Navigator.pop(dialogContext),
                                 child: const Text('CANCEL'),
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  Navigator.pop(dialogContext);
                                   context.read<TrainingSessionBloc>().add(
                                         EndSessionEvent(session.id),
                                       );
@@ -132,8 +133,6 @@ class CurrentTrainingSessionPage extends StatelessWidget {
             );
           }
 
-          // Fallback widok (nie powinien się pojawić, bo jeśli nie ma aktywnej
-          // sesji, to powinniśmy wrócić do poprzedniego ekranu)
           return const Scaffold(
             body: Center(
               child: Text('No active session'),

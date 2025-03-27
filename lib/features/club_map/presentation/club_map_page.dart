@@ -136,8 +136,8 @@ class _ClubMapViewState extends State<_ClubMapView> {
 
   Widget _buildGymLayout(List<AreaEntity> areas) {
     return Container(
-      width: 1000, // Base width of our layout canvas
-      height: 800, // Base height of our layout canvas
+      width: 1000,
+      height: 800,
       color: Colors.grey.shade800,
       child: CustomPaint(
         painter: GymLayoutPainter(
@@ -196,7 +196,6 @@ class _ClubMapViewState extends State<_ClubMapView> {
   }
 
   Color _getDifficultyColor(String grade) {
-    // V-scale difficulty colors
     if (grade.startsWith('V1') ||
         grade.startsWith('V2') ||
         grade.startsWith('V3')) {
@@ -282,7 +281,6 @@ class _ClubMapViewState extends State<_ClubMapView> {
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
-                // Navigate to detailed page or log attempt
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
@@ -344,7 +342,6 @@ class GymLayoutPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2.0 / scale;
 
-    // Draw each area
     for (final area in areas) {
       final points = area.points;
       final path = Path();
@@ -357,12 +354,10 @@ class GymLayoutPainter extends CustomPainter {
         }
         path.close();
 
-        // Fill and stroke the path
         canvas
           ..drawPath(path, areaPaint)
           ..drawPath(path, borderPaint);
 
-        // Add label
         final textSpan = TextSpan(
           text: area.label,
           style: TextStyle(
@@ -377,7 +372,6 @@ class GymLayoutPainter extends CustomPainter {
           textDirection: TextDirection.ltr,
         )..layout();
 
-        // Calculate center position for the text
         double centerX = 0;
         double centerY = 0;
         for (final point in points) {

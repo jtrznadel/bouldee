@@ -8,7 +8,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final getIt = GetIt.instance;
 
 @InjectableInit()
-void configureDependencies() => getIt.init();
+Future<void> configureDependencies() async => getIt.init();
 
 @module
 abstract class AppModule {

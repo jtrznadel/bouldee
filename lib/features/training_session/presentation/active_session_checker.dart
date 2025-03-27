@@ -8,11 +8,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ActiveSessionChecker {
   static void checkAndNavigate(BuildContext context) {
-    // Tworzymy tymczasowy bloc do sprawdzenia stanu sesji
     final bloc = getIt<TrainingSessionBloc>()
       ..add(const LoadActiveSessionEvent());
 
-    // Używamy BlocProvider.value aby nie tworzyć nowego blocu, tylko użyć istniejącego
     showDialog<void>(
       context: context,
       barrierColor: Colors.black54,
@@ -20,15 +18,12 @@ class ActiveSessionChecker {
         value: bloc,
         child: BlocListener<TrainingSessionBloc, TrainingSessionState>(
           listener: (context, state) {
-            // Zamknij dialog ładowania
             Navigator.pop(dialogContext);
 
             if (state is TrainingSessionActive) {
-              // Jeśli jest aktywna sesja, przekieruj do jej widoku
               context.router.push(const CurrentTrainingSessionRoute());
             } else if (state is TrainingSessionInactive ||
                 state is TrainingSessionInitial) {
-              // Jeśli nie ma aktywnej sesji, pokaż modal do utworzenia nowej
               showModalBottomSheet<void>(
                 context: context,
                 isScrollControlled: true,
@@ -36,7 +31,6 @@ class ActiveSessionChecker {
                 builder: (context) => const CreateTrainingSessionModal(),
               );
             } else if (state is TrainingSessionError) {
-              // Jeśli wystąpił błąd, pokaż komunikat
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message)),
               );

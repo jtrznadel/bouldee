@@ -109,21 +109,18 @@ class TrainingSessionLocalDataSourceImpl
 
     try {
       await db.transaction((txn) async {
-        // Insert or update session
         await txn.insert(
           'sessions',
           session.toMap(),
           conflictAlgorithm: ConflictAlgorithm.replace,
         );
 
-        // Remove existing boulders for this session to avoid duplicates
         await txn.delete(
           'session_boulders',
           where: 'session_id = ?',
           whereArgs: [session.id],
         );
 
-        // Insert all boulders
         for (final boulder in session.boulders) {
           final boulderModel = boulder as BoulderModel;
           await txn.insert(
@@ -144,14 +141,12 @@ class TrainingSessionLocalDataSourceImpl
 
     try {
       await db.transaction((txn) async {
-        // Delete boulders first (should happen automatically with CASCADE)
         await txn.delete(
           'session_boulders',
           where: 'session_id = ?',
           whereArgs: [sessionId],
         );
 
-        // Delete session
         await txn.delete(
           'sessions',
           where: 'id = ?',

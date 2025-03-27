@@ -59,7 +59,6 @@ class _RingPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = (size.width - strokeWidth) / 2;
 
-    // Draw background circle
     final backgroundPaint = Paint()
       ..color = backgroundColor
       ..style = PaintingStyle.stroke
@@ -68,7 +67,6 @@ class _RingPainter extends CustomPainter {
 
     canvas.drawCircle(center, radius, backgroundPaint);
 
-    // Draw progress arc
     final progressPaint = Paint()
       ..color = valueColor
       ..style = PaintingStyle.stroke
@@ -76,7 +74,7 @@ class _RingPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     final sweepAngle = 2 * pi * value;
-    const startAngle = -pi / 2; // Start from top
+    const startAngle = -pi / 2;
 
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
