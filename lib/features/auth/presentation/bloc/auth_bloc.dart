@@ -56,4 +56,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _userSubscription?.cancel();
     return super.close();
   }
+
+  User? getCurrentUser() {
+    return _authRepository.getSignedInUser();
+  }
+
+  bool isAuthenticated() {
+    return state is AuthUserAuthenticated ||
+        _authRepository.getSignedInUser() != null;
+  }
 }

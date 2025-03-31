@@ -4,25 +4,19 @@ import 'package:bouldee/app/routing/app_router.gr.dart';
 import 'package:bouldee/features/auth/presentation/bloc/auth_bloc.dart';
 
 class AuthGuard extends AutoRouteGuard {
-  AuthGuard() {
-    try {
-      getIt<AuthBloc>().stream.listen((state) {
-        _isAuthenticated = state is AuthUserAuthenticated;
-      });
-
-      _isAuthenticated = getIt<AuthBloc>().state is AuthUserAuthenticated;
-    } catch (e) {
-      print('Error in AuthGuard constructor: $e');
-      _isAuthenticated = false;
-    }
-  }
-
-  bool _isAuthenticated = false;
-
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) {
-    if (_isAuthenticated) {
+    final authBloc = getIt<AuthBloc>();
+
+    if (authBloc.state is AuthUserAuthenticated) {
       resolver.next();
+    } else if (authBloc.state is AuthInitial) {
+      final currentUser = authBloc.getCurrentUser();
+      if (currentUser != null) {
+        resolver.next();
+      } else {
+        resolver.redirect(const OnboardingRoute());
+      }
     } else {
       resolver.redirect(const OnboardingRoute());
     }
