@@ -44,14 +44,14 @@ class CreateTrainingSessionModal extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Text(
-                'Ready to new challenge?',
+                'Gotowy na nowe wyzwanie?',
                 style: context.textTheme.headlineMedium?.copyWith(
                   color: AppColors.textLight,
                 ),
               ),
               const SizedBox(height: 20),
               Text(
-                'Track your climbs, monitor your progress, and analyze your performance in this session.',
+                'Śledź swoje problemy, monitoruj postępy i analizuj wyniki w tej sesji.',
                 textAlign: TextAlign.center,
                 style: context.textTheme.bodyMedium?.copyWith(
                   color: AppColors.textSecondary,
@@ -87,7 +87,7 @@ class CreateTrainingSessionModal extends StatelessWidget {
                             ),
                           )
                         : Text(
-                            "Let's go!",
+                            'Zaczynajmy!',
                             style: context.textTheme.labelLarge,
                           ),
                   );
@@ -102,7 +102,7 @@ class CreateTrainingSessionModal extends StatelessWidget {
                   minimumSize: const Size(double.infinity, 50),
                 ),
                 child: Text(
-                  'Not now',
+                  'Nie teraz',
                   style: context.textTheme.bodyMedium?.copyWith(
                     color: AppColors.textSecondary,
                   ),

@@ -57,12 +57,12 @@ class SignUpForm extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Start your journey!',
+                  'Zacznij swoją przygodę!',
                   style: context.textTheme.headlineLarge
                       ?.copyWith(color: AppColors.textLight),
                 ),
                 AppTextField(
-                  label: 'Username',
+                  label: 'Nazwa użytkownika',
                   onChanged: (value) {
                     context
                         .read<SignUpBloc>()
@@ -79,7 +79,7 @@ class SignUpForm extends StatelessWidget {
                   keyboardType: TextInputType.emailAddress,
                 ),
                 AppTextField(
-                  label: 'Phone number',
+                  label: 'Numer telefonu',
                   onChanged: (value) {
                     context
                         .read<SignUpBloc>()
@@ -93,7 +93,7 @@ class SignUpForm extends StatelessWidget {
                         .read<SignUpBloc>()
                         .add(SignUpPasswordChanged(password: value));
                   },
-                  label: 'Password',
+                  label: 'Hasło',
                   obscureText: true,
                 ),
                 AppTextField(
@@ -102,7 +102,7 @@ class SignUpForm extends StatelessWidget {
                           SignUpConfirmPasswordChanged(confirmPassword: value),
                         );
                   },
-                  label: 'Confirm Password',
+                  label: 'Potwierdź hasło',
                   obscureText: true,
                 ),
                 const Spacer(),
@@ -110,7 +110,7 @@ class SignUpForm extends StatelessWidget {
                   const Center(child: CircularProgressIndicator())
                 else
                   AppButton(
-                    text: 'Sign Up',
+                    text: 'Zarejestruj się',
                     onPressed: () {
                       context.read<SignUpBloc>().add(SignUpSubmitted());
                     },
@@ -119,7 +119,7 @@ class SignUpForm extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Already have an account?',
+                      'Posiadasz już konto?',
                       style: context.textTheme.bodyMedium?.copyWith(
                         color: AppColors.textLight,
                       ),
@@ -129,7 +129,7 @@ class SignUpForm extends StatelessWidget {
                         context.router.replace(const SignInRoute());
                       },
                       child: Text(
-                        'Sign In',
+                        'Zaloguj się',
                         style: context.textTheme.labelMedium?.copyWith(
                           color: AppColors.primary,
                         ),

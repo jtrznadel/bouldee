@@ -57,12 +57,15 @@ class SignInForm extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Welcome back 👋',
+                  'Witaj 👋',
                   style: context.textTheme.headlineLarge
                       ?.copyWith(color: AppColors.textLight),
                 ),
+                const SizedBox(
+                  height: 5,
+                ),
                 Text(
-                  'Nice to see you again!',
+                  'Miło Cię widzieć ponownie! ',
                   style: context.textTheme.headlineMedium
                       ?.copyWith(color: AppColors.textLight),
                 ),
@@ -87,7 +90,7 @@ class SignInForm extends StatelessWidget {
                         .read<SignInBloc>()
                         .add(SignInPasswordChanged(password: value));
                   },
-                  label: 'Password',
+                  label: 'Hasło',
                   obscureText: true,
                 ),
                 Align(
@@ -95,7 +98,7 @@ class SignInForm extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {},
                     child: Text(
-                      'Forgot your password?',
+                      'Zapomniałeś hasła?',
                       style: context.textTheme.labelMedium?.copyWith(
                         color: AppColors.primary,
                       ),
@@ -109,7 +112,7 @@ class SignInForm extends StatelessWidget {
                   const Center(child: CircularProgressIndicator())
                 else
                   AppButton(
-                    text: 'Sign In',
+                    text: 'Zaloguj się',
                     onPressed: () {
                       context.read<SignInBloc>().add(SignInSubmitted());
                     },
@@ -117,7 +120,7 @@ class SignInForm extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                AppDivider.horizontalWithText(text: 'OR'),
+                AppDivider.horizontalWithText(text: 'LUB'),
                 Row(
                   spacing: 8,
                   children: [
@@ -149,7 +152,7 @@ class SignInForm extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account?",
+                      'Nie masz jeszcze konta?',
                       style: context.textTheme.bodyMedium?.copyWith(
                         color: AppColors.textLight,
                       ),
@@ -159,7 +162,7 @@ class SignInForm extends StatelessWidget {
                         context.router.replace(const SignUpRoute());
                       },
                       child: Text(
-                        'Sign Up',
+                        'Zarejestruj się',
                         style: context.textTheme.labelMedium?.copyWith(
                           color: AppColors.primary,
                         ),

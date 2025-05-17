@@ -61,7 +61,7 @@ class OnboardingPage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Your climbing journey starts here – plan, climb and crush your goals!',
+                  'Twoja przygoda z boulderingiem zaczyna się tutaj – zaplanuj, wspinaj się i osiągaj cele!',
                   style: context.textTheme.bodyLarge?.copyWith(
                     color: AppColors.textSecondary,
                   ),
@@ -69,7 +69,7 @@ class OnboardingPage extends StatelessWidget {
                 Column(
                   children: [
                     AppButton(
-                      text: 'Get Started',
+                      text: 'Zaczynajmy!',
                       onPressed: () {
                         context.router.push(const SignUpRoute());
                       },
@@ -78,7 +78,7 @@ class OnboardingPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Already have an account?',
+                          'Masz już konto?',
                           style: context.textTheme.bodyMedium?.copyWith(
                             color: AppColors.textLight,
                           ),
@@ -88,7 +88,7 @@ class OnboardingPage extends StatelessWidget {
                             context.router.push(const SignInRoute());
                           },
                           child: Text(
-                            'Sign In',
+                            'Zaloguj się',
                             style: context.textTheme.labelMedium?.copyWith(
                               color: AppColors.primary,
                             ),

@@ -26,12 +26,17 @@ class TrainingSessionModel extends TrainingSessionEntity {
   }
 
   factory TrainingSessionModel.fromJson(Map<String, dynamic> json) {
+    final startTimeString = json['start_time'] as String;
+    final endTimeString = json['end_time'] as String?;
+
+    // Parsuj daty jako UTC
+    final startTime = DateTime.parse(startTimeString).toLocal();
+    final endTime =
+        endTimeString != null ? DateTime.parse(endTimeString).toLocal() : null;
     return TrainingSessionModel(
       id: json['_id'] as String,
-      startTime: DateTime.parse(json['start_time'] as String),
-      endTime: json['end_time'] != null
-          ? DateTime.parse(json['end_time'] as String)
-          : null,
+      startTime: startTime,
+      endTime: endTime,
       isActive: json['is_active'] as bool,
       deviceId: json['device_id'] as String?,
       pendingSync: json['pending_sync'] as bool? ?? false,

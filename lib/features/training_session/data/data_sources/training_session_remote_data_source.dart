@@ -49,6 +49,7 @@ class TrainingSessionRemoteDataSourceImpl
     }
 
     final deviceId = await _getDeviceId();
+    final utcNow = DateTime.now().toUtc();
 
     final response = await _supabaseClient
         .from('sessions')
@@ -57,7 +58,7 @@ class TrainingSessionRemoteDataSourceImpl
           'device_id': deviceId,
           'is_active': true,
           'pending_sync': false,
-          'start_time': DateTime.now().toIso8601String(),
+          'start_time': utcNow.toIso8601String(),
         })
         .select()
         .single();
@@ -69,7 +70,7 @@ class TrainingSessionRemoteDataSourceImpl
   Future<void> endSession(String sessionId) async {
     await _supabaseClient.from('sessions').update({
       'is_active': false,
-      'end_time': DateTime.now().toIso8601String(),
+      'end_time': DateTime.now().toUtc().toIso8601String(), // UTC czas
     }).eq('_id', sessionId);
   }
 
@@ -143,8 +144,8 @@ class TrainingSessionRemoteDataSourceImpl
     await _supabaseClient.from('sessions').insert({
       '_id': session.id,
       'user_id': userId,
-      'start_time': session.startTime.toIso8601String(),
-      'end_time': session.endTime?.toIso8601String(),
+      'start_time': session.startTime.toUtc().toIso8601String(), // UTC
+      'end_time': session.endTime?.toUtc().toIso8601String(), // UTC
       'is_active': session.isActive,
       'device_id': session.deviceId,
       'pending_sync': false,
@@ -168,8 +169,8 @@ class TrainingSessionRemoteDataSourceImpl
   @override
   Future<void> updateSession(TrainingSessionModel session) async {
     await _supabaseClient.from('sessions').update({
-      'start_time': session.startTime.toIso8601String(),
-      'end_time': session.endTime?.toIso8601String(),
+      'start_time': session.startTime.toUtc().toIso8601String(), // UTC
+      'end_time': session.endTime?.toUtc().toIso8601String(), // UTC
       'is_active': session.isActive,
       'device_id': session.deviceId,
       'pending_sync': false,
