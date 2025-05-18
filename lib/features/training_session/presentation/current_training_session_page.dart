@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
 import 'package:bouldee/app/dependency_injection/dependency_injection.dart';
 import 'package:bouldee/app/extensions/context_extensions.dart';
+import 'package:bouldee/app/widgets/app_loading_indicator.dart';
 import 'package:bouldee/features/training_session/domain/entities/training_session_entity.dart';
 import 'package:bouldee/features/training_session/presentation/bloc/training_session_bloc.dart';
 import 'package:flutter/material.dart';
@@ -87,11 +88,7 @@ class _CurrentTrainingSessionPageState extends State<CurrentTrainingSessionPage>
         },
         builder: (context, state) {
           if (state is TrainingSessionLoading) {
-            return const Scaffold(
-              body: Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
+            return const AppLoadingIndicator();
           }
 
           if (state is TrainingSessionActive) {
@@ -317,9 +314,9 @@ class _CurrentTrainingSessionPageState extends State<CurrentTrainingSessionPage>
               ),
             ),
             subtitle: Text(
-              'Ocena: ${boulder.attempts ?? 'Nie ustalona'}',
+              'Ocena: ${boulder.attempts}',
               style: TextStyle(
-                color: AppColors.textLight.withOpacity(0.7),
+                color: AppColors.textLight.withValues(alpha: .7),
               ),
             ),
             trailing: Icon(

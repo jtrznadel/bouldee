@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
 import 'package:bouldee/app/dependency_injection/dependency_injection.dart';
 import 'package:bouldee/app/extensions/context_extensions.dart';
+import 'package:bouldee/app/widgets/app_loading_indicator.dart';
 import 'package:bouldee/features/club_map/domain/entities/area_entity.dart';
 import 'package:bouldee/features/club_map/domain/entities/boulder_entity.dart';
 import 'package:bouldee/features/club_map/presentation/bloc/club_map_bloc.dart';
@@ -59,6 +60,7 @@ class _ClubMapViewState extends State<_ClubMapView> {
           ),
         ),
         elevation: 0,
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.replay),
@@ -74,9 +76,7 @@ class _ClubMapViewState extends State<_ClubMapView> {
       body: BlocBuilder<ClubMapBloc, ClubMapState>(
         builder: (context, state) {
           if (state is ClubMapLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: AppLoadingIndicator());
           } else if (state is AreaError) {
             return Center(
               child: Column(

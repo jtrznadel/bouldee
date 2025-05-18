@@ -1,5 +1,6 @@
 import 'package:bouldee/app/constants/app_colors.dart';
 import 'package:bouldee/app/extensions/context_extensions.dart';
+import 'package:bouldee/app/widgets/app_section_header.dart';
 import 'package:bouldee/app/widgets/app_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -13,23 +14,10 @@ class HomeLastSession extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Ostatnia sesja',
-              style: context.textTheme.labelLarge
-                  ?.copyWith(color: AppColors.textLight),
-            ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                'Więcej',
-                style: context.textTheme.labelMedium
-                    ?.copyWith(color: AppColors.textSecondary),
-              ),
-            ),
-          ],
+        AppSectionHeader(
+          title: 'Ostatnia sesja',
+          buttonText: 'Zobacz więcej',
+          onButtonPressed: () {},
         ),
         AppTile(
           child: Column(

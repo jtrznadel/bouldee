@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
 import 'package:bouldee/app/routing/app_router.gr.dart';
 import 'package:bouldee/features/training_session/presentation/active_session_checker.dart';
-import 'package:bouldee/features/training_session/presentation/create_training_session_modal.dart';
 import 'package:flutter/material.dart';
 
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -19,6 +18,7 @@ class NavigationWrapperPage extends StatelessWidget {
         ClubMapRoute(clubId: '056d0a80-b0aa-42ae-b21e-3f574da0f6f8'),
         const HomeRoute(),
         const HomeRoute(),
+        const ProfileRoute(),
       ],
       builder: (context, child) {
         final tabsRouter = context.tabsRouter;
