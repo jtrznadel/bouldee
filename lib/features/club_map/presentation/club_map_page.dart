@@ -1,13 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
+import 'package:bouldee/app/constants/app_sizes.dart';
 import 'package:bouldee/app/dependency_injection/dependency_injection.dart';
 import 'package:bouldee/app/extensions/context_extensions.dart';
 import 'package:bouldee/app/widgets/app_loading_indicator.dart';
 import 'package:bouldee/features/club_map/domain/entities/area_entity.dart';
 import 'package:bouldee/features/club_map/domain/entities/boulder_entity.dart';
 import 'package:bouldee/features/club_map/presentation/bloc/club_map_bloc.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 @RoutePage()
 class ClubMapPage extends StatelessWidget {
@@ -219,85 +222,179 @@ class _ClubMapViewState extends State<_ClubMapView> {
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
         padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  GradeBadge(
+                    grade: boulder.grade,
                     color: _getDifficultyColor(boulder.grade),
-                    borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(
-                    boulder.grade,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      boulder.name,
+                      style: context.textTheme.labelLarge?.copyWith(
+                        color: AppColors.textLight,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          '4.3',
+                          style: context.textTheme.labelSmall?.copyWith(
+                            color: AppColors.secondary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(width: 2),
+                        const Icon(
+                          Icons.star_rate_rounded,
+                          color: AppColors.secondary,
+                          size: 16,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 5),
+              Text(
+                'Setter: John Doe',
+                style: context.textTheme.labelSmall?.copyWith(
+                  color: AppColors.textSecondary,
                 ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    boulder.name,
-                    style: const TextStyle(
-                      fontSize: 18,
+              ),
+              const SizedBox(height: 15),
+              const Divider(color: AppColors.textSecondary),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildStatColumn('Flash', '${boulder.flash}%'),
+                  _buildStatColumn('Top', '${boulder.top}%'),
+                  _buildStatColumn(
+                    'Średnia prób',
+                    boulder.attemptsAvg.toStringAsFixed(1),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              const Divider(color: AppColors.textSecondary),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Text(
+                    'Ocena trudności ~ ',
+                    style: context.textTheme.labelLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppColors.textLight,
                     ),
-                    overflow: TextOverflow.ellipsis,
+                  ),
+                  GradeBadge(
+                    grade: boulder.grade,
+                    color: _getDifficultyColor(boulder.grade),
+                  ),
+                  const Spacer(),
+                  InkWell(
+                    onTap: () {},
+                    child: Row(
+                      spacing: 4,
+                      children: [
+                        const Icon(
+                          LucideIcons.info,
+                          color: AppColors.textSecondary,
+                          size: 16,
+                        ),
+                        Text(
+                          'Jak to działa?',
+                          style: context.textTheme.bodySmall?.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 80,
+                child: BarChart(
+                  BarChartData(
+                    alignment: BarChartAlignment.spaceAround,
+                    barGroups: [
+                      for (int i = 1; i <= 8; i++)
+                        BarChartGroupData(
+                          x: i,
+                          barRods: [
+                            BarChartRodData(
+                              toY: i * 10.0,
+                              color: AppColors.primary,
+                              width: 32,
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(6),
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
+                    titlesData: FlTitlesData(
+                      leftTitles: const AxisTitles(),
+                      bottomTitles: AxisTitles(
+                        sideTitles: SideTitles(
+                          showTitles: true,
+                          reservedSize: 30,
+                          getTitlesWidget: (value, meta) {
+                            final grade = 'V${value.toInt()}';
+
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: _getDifficultyColor(grade),
+                                  borderRadius: const BorderRadius.vertical(
+                                    bottom: Radius.circular(6),
+                                  ),
+                                ),
+                                child: Text(
+                                  grade,
+                                  style: context.textTheme.labelSmall?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      topTitles: const AxisTitles(),
+                      rightTitles: const AxisTitles(),
+                    ),
+                    borderData: FlBorderData(show: false),
+                    gridData: const FlGridData(show: false),
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Setter: ${boulder.setter}',
-              style: const TextStyle(
-                color: AppColors.textSecondary,
               ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildStatColumn('Flash', '${boulder.flash}%'),
-                _buildStatColumn('Top', '${boulder.top}%'),
-                _buildStatColumn(
-                  'Attempts Avg',
-                  boulder.attemptsAvg.toStringAsFixed(1),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Text(
-                'Log Attempt',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -322,6 +419,34 @@ class _ClubMapViewState extends State<_ClubMapView> {
           ),
         ),
       ],
+    );
+  }
+}
+
+class GradeBadge extends StatelessWidget {
+  const GradeBadge({
+    required this.grade,
+    required this.color,
+    super.key,
+  });
+
+  final String grade;
+  final Color color;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        grade,
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }
