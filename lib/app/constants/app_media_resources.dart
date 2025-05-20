@@ -7,4 +7,5 @@ class AppMediaRes {
   static const String appLogo = 'assets/logos/bouldee.svg';
 
   static const String deffaultAvatar = 'assets/utils/climber_avatar.jpeg';
+  static const String deffaultBoulderImage = 'assets/utils/boulder_problem.jpg';
 }

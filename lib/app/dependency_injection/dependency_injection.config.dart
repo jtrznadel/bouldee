@@ -21,6 +21,16 @@ import 'package:bouldee/features/auth/presentation/bloc/sign_in/bloc/sign_in_blo
 import 'package:bouldee/features/auth/presentation/bloc/sign_up/bloc/sign_up_bloc.dart'
     as _i153;
 import 'package:bouldee/features/auth/repository/auth_repository.dart' as _i818;
+import 'package:bouldee/features/boulder_details/data/data_sources/boulder_details_remote_data_source.dart'
+    as _i664;
+import 'package:bouldee/features/boulder_details/data/repositories/boulder_details_repository_impl.dart'
+    as _i504;
+import 'package:bouldee/features/boulder_details/domain/repositories/boulder_details_repository.dart'
+    as _i461;
+import 'package:bouldee/features/boulder_details/domain/usecases/get_boulder_details_usecase.dart'
+    as _i653;
+import 'package:bouldee/features/boulder_details/presentation/bloc/boulder_details_bloc.dart'
+    as _i68;
 import 'package:bouldee/features/club_map/data/data_sources/club_map_remote_data_source.dart'
     as _i967;
 import 'package:bouldee/features/club_map/data/repositories/club_map_repository_impl.dart'
@@ -80,10 +90,15 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i930.TrainingSessionLocalDataSource>(
         () => _i930.TrainingSessionLocalDataSourceImpl());
+    gh.factory<_i664.BoulderDetailsRemoteDataSource>(() =>
+        _i664.BoulderDetailsRemoteDataSourceImpl(gh<_i454.SupabaseClient>()));
     gh.factory<_i967.ClubMapRemoteDataSource>(
         () => _i967.ClubMapRemoteDataSourceImpl(gh<_i454.SupabaseClient>()));
     gh.factory<_i624.TrainingSessionRemoteDataSource>(() =>
         _i624.TrainingSessionRemoteDataSourceImpl(gh<_i454.SupabaseClient>()));
+    gh.factory<_i461.BoulderDetailsRepository>(() =>
+        _i504.BoulderDetailsRepositoryImpl(
+            gh<_i664.BoulderDetailsRemoteDataSource>()));
     gh.factory<_i965.ClubMapRepository>(
         () => _i54.ClubMapRepositoryImpl(gh<_i967.ClubMapRemoteDataSource>()));
     gh.factory<_i178.TrainingSessionRepository>(
@@ -111,6 +126,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i553.AddBoulderUsecase(gh<_i178.TrainingSessionRepository>()));
     gh.factory<_i557.GetClubMapDataUseCase>(
         () => _i557.GetClubMapDataUseCase(gh<_i965.ClubMapRepository>()));
+    gh.factory<_i653.GetBoulderDetailsUsecase>(() =>
+        _i653.GetBoulderDetailsUsecase(gh<_i461.BoulderDetailsRepository>()));
     gh.factory<_i827.TrainingSessionBloc>(() => _i827.TrainingSessionBloc(
           gh<_i301.StartSessionUsecase>(),
           gh<_i895.EndSessionUsecase>(),
@@ -120,6 +137,8 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i587.ClubMapBloc>(
         () => _i587.ClubMapBloc(gh<_i557.GetClubMapDataUseCase>()));
+    gh.factory<_i68.BoulderDetailsBloc>(
+        () => _i68.BoulderDetailsBloc(gh<_i653.GetBoulderDetailsUsecase>()));
     return this;
   }
 }

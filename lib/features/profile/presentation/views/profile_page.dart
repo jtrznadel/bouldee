@@ -5,6 +5,7 @@ import 'package:bouldee/app/constants/app_colors.dart';
 import 'package:bouldee/app/constants/app_media_resources.dart';
 import 'package:bouldee/app/constants/app_sizes.dart';
 import 'package:bouldee/app/extensions/context_extensions.dart';
+import 'package:bouldee/app/widgets/app_statistic_tile.dart';
 import 'package:bouldee/features/profile/presentation/views/profile_achivements_section.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -76,53 +77,13 @@ class ProfilePage extends StatelessWidget {
               spacing: 10,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ProfileStatisticTile(title: 'Problemy', value: 67),
-                ProfileStatisticTile(title: 'Flashe', value: 13),
-                ProfileStatisticTile(title: 'Sesje', value: 23),
+                AppStatisticTile(title: 'Problemy', value: 67),
+                AppStatisticTile(title: 'Flashe', value: 13),
+                AppStatisticTile(title: 'Sesje', value: 23),
               ],
             ),
             const SizedBox(height: 20),
             const ProfileAchivementsSection(),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ProfileStatisticTile extends StatelessWidget {
-  const ProfileStatisticTile({
-    required this.value,
-    required this.title,
-    super.key,
-  });
-
-  final int value;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: AppColors.tileColor,
-          borderRadius: BorderRadius.circular(AppSizes.defaultRadius),
-        ),
-        child: Column(
-          children: [
-            Text(
-              value.toString(),
-              style: context.textTheme.titleLarge?.copyWith(
-                color: AppColors.textLight,
-              ),
-            ),
-            Text(
-              title,
-              style: context.textTheme.bodySmall?.copyWith(
-                color: AppColors.textSecondary,
-              ),
-            ),
           ],
         ),
       ),

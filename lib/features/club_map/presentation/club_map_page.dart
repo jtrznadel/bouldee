@@ -1,16 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
-import 'package:bouldee/app/constants/app_sizes.dart';
 import 'package:bouldee/app/dependency_injection/dependency_injection.dart';
 import 'package:bouldee/app/extensions/context_extensions.dart';
+import 'package:bouldee/app/routing/app_router.gr.dart';
+import 'package:bouldee/app/utilities/boulder_utils.dart';
 import 'package:bouldee/app/widgets/app_loading_indicator.dart';
 import 'package:bouldee/features/club_map/domain/entities/area_entity.dart';
 import 'package:bouldee/features/club_map/domain/entities/boulder_entity.dart';
 import 'package:bouldee/features/club_map/presentation/bloc/club_map_bloc.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 @RoutePage()
 class ClubMapPage extends StatelessWidget {
@@ -155,19 +154,19 @@ class _ClubMapViewState extends State<_ClubMapView> {
     final markers = <Widget>[];
 
     for (final boulder in boulders) {
-      final boulderColor = _getDifficultyColor(boulder.grade);
-
       markers.add(
         Positioned(
           left: boulder.x,
           top: boulder.y,
           child: GestureDetector(
-            onTap: () => _showBoulderDetails(boulder),
+            onTap: () {
+              context.router.push(BoulderDetailsRoute(boulderId: boulder.id));
+            },
             child: Container(
               width: 24 / _currentScale,
               height: 24 / _currentScale,
               decoration: BoxDecoration(
-                color: boulderColor,
+                color: BoulderUtils.getDifficultyColor(boulder.grade),
                 shape: BoxShape.circle,
                 border:
                     Border.all(color: Colors.white, width: 2 / _currentScale),
@@ -196,230 +195,6 @@ class _ClubMapViewState extends State<_ClubMapView> {
     }
 
     return markers;
-  }
-
-  Color _getDifficultyColor(String grade) {
-    if (grade.startsWith('V1') ||
-        grade.startsWith('V2') ||
-        grade.startsWith('V3')) {
-      return Colors.green;
-    } else if (grade.startsWith('V4') || grade.startsWith('V5')) {
-      return Colors.blue;
-    } else if (grade.startsWith('V6') || grade.startsWith('V7')) {
-      return Colors.orange;
-    } else {
-      return Colors.red;
-    }
-  }
-
-  void _showBoulderDetails(BoulderEntity boulder) {
-    showModalBottomSheet<void>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        decoration: const BoxDecoration(
-          color: AppColors.tileColor,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        padding: const EdgeInsets.all(16),
-        child: SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  GradeBadge(
-                    grade: boulder.grade,
-                    color: _getDifficultyColor(boulder.grade),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      boulder.name,
-                      style: context.textTheme.labelLarge?.copyWith(
-                        color: AppColors.textLight,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 6),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          '4.3',
-                          style: context.textTheme.labelSmall?.copyWith(
-                            color: AppColors.secondary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(width: 2),
-                        const Icon(
-                          Icons.star_rate_rounded,
-                          color: AppColors.secondary,
-                          size: 16,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 5),
-              Text(
-                'Setter: John Doe',
-                style: context.textTheme.labelSmall?.copyWith(
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 15),
-              const Divider(color: AppColors.textSecondary),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildStatColumn('Flash', '${boulder.flash}%'),
-                  _buildStatColumn('Top', '${boulder.top}%'),
-                  _buildStatColumn(
-                    'Średnia prób',
-                    boulder.attemptsAvg.toStringAsFixed(1),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              const Divider(color: AppColors.textSecondary),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Text(
-                    'Ocena trudności ~ ',
-                    style: context.textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textLight,
-                    ),
-                  ),
-                  GradeBadge(
-                    grade: boulder.grade,
-                    color: _getDifficultyColor(boulder.grade),
-                  ),
-                  const Spacer(),
-                  InkWell(
-                    onTap: () {},
-                    child: Row(
-                      spacing: 4,
-                      children: [
-                        const Icon(
-                          LucideIcons.info,
-                          color: AppColors.textSecondary,
-                          size: 16,
-                        ),
-                        Text(
-                          'Jak to działa?',
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 80,
-                child: BarChart(
-                  BarChartData(
-                    alignment: BarChartAlignment.spaceAround,
-                    barGroups: [
-                      for (int i = 1; i <= 8; i++)
-                        BarChartGroupData(
-                          x: i,
-                          barRods: [
-                            BarChartRodData(
-                              toY: i * 10.0,
-                              color: AppColors.primary,
-                              width: 32,
-                              borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(6),
-                              ),
-                            ),
-                          ],
-                        ),
-                    ],
-                    titlesData: FlTitlesData(
-                      leftTitles: const AxisTitles(),
-                      bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                          showTitles: true,
-                          reservedSize: 30,
-                          getTitlesWidget: (value, meta) {
-                            final grade = 'V${value.toInt()}';
-
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 5),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 4,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: _getDifficultyColor(grade),
-                                  borderRadius: const BorderRadius.vertical(
-                                    bottom: Radius.circular(6),
-                                  ),
-                                ),
-                                child: Text(
-                                  grade,
-                                  style: context.textTheme.labelSmall?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      topTitles: const AxisTitles(),
-                      rightTitles: const AxisTitles(),
-                    ),
-                    borderData: FlBorderData(show: false),
-                    gridData: const FlGridData(show: false),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatColumn(String label, String value) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-            color: AppColors.primary,
-          ),
-        ),
-        Text(
-          label,
-          style: const TextStyle(
-            color: AppColors.textSecondary,
-            fontSize: 12,
-          ),
-        ),
-      ],
-    );
   }
 }
 
