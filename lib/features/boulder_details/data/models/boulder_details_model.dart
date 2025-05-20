@@ -19,16 +19,16 @@ class BoulderDetailsModel extends BoulderDetailsEntity {
 
   factory BoulderDetailsModel.fromJson(Map<String, dynamic> json) {
     return BoulderDetailsModel(
-      id: json['id'] as String,
+      id: json['_id'] as String,
       grade: json['grade'] as String,
       x: (json['x'] as Object).toDouble(),
       y: (json['y'] as Object).toDouble(),
       name: json['name'] as String,
-      setter: json['setter'] as String,
+      setter: json['setter_id'] as String,
       flash: (json['flash'] as Object).toDouble(),
       top: (json['top'] as Object).toDouble(),
-      attemptsAvg: (json['attemptsAvg'] as Object).toDouble(),
-      imageUrl: json['imageUrl'] as String?,
+      attemptsAvg: (json['attempts_avg'] as Object).toDouble(),
+      imageUrl: json['image_url'] as String?,
       rating: (json['rating'] as Object?)?.toDouble(),
       description: json['description'] as String?,
     );

@@ -18,9 +18,11 @@ class BoulderDetailsRemoteDataSourceImpl
     required String boulderId,
   }) async {
     try {
-      final response = await _supabase.from('boulders').select('''
-      *, details:boulder_details!inner(*)
-''').eq('id', boulderId).single();
+      final response = await _supabase
+          .from('boulders_with_details')
+          .select()
+          .eq('_id', boulderId)
+          .single();
       return BoulderDetailsModel.fromJson(response);
     } catch (e) {
       rethrow;
