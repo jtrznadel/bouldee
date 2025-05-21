@@ -217,9 +217,8 @@ class GradeBadge extends StatelessWidget {
       ),
       child: Text(
         grade,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
+        style: context.textTheme.labelMedium?.copyWith(
+          color: AppColors.textLight,
         ),
       ),
     );
