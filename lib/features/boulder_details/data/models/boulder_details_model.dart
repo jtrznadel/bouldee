@@ -24,7 +24,7 @@ class BoulderDetailsModel extends BoulderDetailsEntity {
       x: (json['x'] as Object).toDouble(),
       y: (json['y'] as Object).toDouble(),
       name: json['name'] as String,
-      setter: json['setter_id'] as String,
+      setter: json['setter'] as String,
       flash: (json['flash'] as Object).toDouble(),
       top: (json['top'] as Object).toDouble(),
       attemptsAvg: (json['attempts_avg'] as Object).toDouble(),

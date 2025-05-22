@@ -8,15 +8,18 @@ class AppStatisticTile extends StatelessWidget {
     required this.value,
     required this.title,
     super.key,
+    this.isPercent = false,
   });
 
   final num value;
   final String title;
+  final bool isPercent;
 
   @override
   Widget build(BuildContext context) {
-    final displayValue =
+    final formattedValue =
         value % 1 == 0 ? value.toInt().toString() : value.toStringAsFixed(1);
+    final displayValue = isPercent ? '$formattedValue%' : formattedValue;
     return Expanded(
       child: Container(
         padding: const EdgeInsets.all(10),

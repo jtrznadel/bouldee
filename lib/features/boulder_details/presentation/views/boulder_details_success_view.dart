@@ -5,6 +5,8 @@ import 'package:bouldee/app/constants/app_sizes.dart';
 import 'package:bouldee/app/extensions/context_extensions.dart';
 import 'package:bouldee/app/utilities/boulder_utils.dart';
 import 'package:bouldee/app/widgets/app_badge.dart';
+import 'package:bouldee/app/widgets/app_divider.dart';
+import 'package:bouldee/app/widgets/app_section_header.dart';
 import 'package:bouldee/app/widgets/app_statistic_tile.dart';
 import 'package:bouldee/features/boulder_details/domain/entities/boulder_details_entity.dart';
 import 'package:bouldee/features/club_map/presentation/club_map_page.dart';
@@ -124,20 +126,20 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                           AppBadge(
                             color: AppColors.primary,
                             content: Row(
+                              spacing: 2,
                               children: [
                                 Text(
                                   widget.boulderDetails.rating!
                                       .toStringAsFixed(1),
-                                  style: context.textTheme.labelSmall?.copyWith(
+                                  style:
+                                      context.textTheme.labelMedium?.copyWith(
                                     color: AppColors.secondary,
-                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const SizedBox(width: 2),
                                 const Icon(
                                   Icons.star_rate_rounded,
                                   color: AppColors.secondary,
-                                  size: 16,
+                                  size: 19,
                                 ),
                               ],
                             ),
@@ -155,11 +157,11 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                     Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color: AppColors.background,
+                        color: AppColors.tileColor,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
+                            color: Colors.black.withValues(alpha: .2),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -200,19 +202,21 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                               ),
                       ),
                     ),
-                    const SizedBox(height: 10),
-                    const Divider(color: AppColors.textSecondary),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      spacing: 10,
                       children: [
                         AppStatisticTile(
                           title: 'Flash',
                           value: widget.boulderDetails.flash,
+                          isPercent: true,
                         ),
                         AppStatisticTile(
                           title: 'Top',
                           value: widget.boulderDetails.top,
+                          isPercent: true,
                         ),
                         AppStatisticTile(
                           title: 'Średnia prób',
@@ -220,18 +224,12 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    const Divider(color: AppColors.textSecondary),
-                    const SizedBox(height: 10),
+                    const SizedBox(
+                      height: 15,
+                    ),
                     Row(
                       children: [
-                        Text(
-                          'Ocena trudności ~ ',
-                          style: context.textTheme.labelLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textLight,
-                          ),
-                        ),
+                        const AppSectionHeader(title: 'Ocena trudności ~ '),
                         GradeBadge(
                           grade: widget.boulderDetails.grade,
                           color: BoulderUtils.getDifficultyColor(
@@ -246,12 +244,12 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                               const Icon(
                                 LucideIcons.info,
                                 color: AppColors.textSecondary,
-                                size: 16,
+                                size: 12,
                               ),
                               const SizedBox(width: 4),
                               Text(
                                 'Jak to działa?',
-                                style: context.textTheme.bodySmall?.copyWith(
+                                style: context.textTheme.labelSmall?.copyWith(
                                   color: AppColors.textSecondary,
                                 ),
                               ),
@@ -329,30 +327,120 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                       ),
                     ),
                     if (widget.boulderDetails.description != null) ...[
-                      const SizedBox(height: 16),
-                      const Divider(color: AppColors.textSecondary),
-                      const SizedBox(height: 10),
-                      Text(
-                        'Opis',
-                        style: context.textTheme.labelLarge?.copyWith(
-                          color: AppColors.textLight,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 20),
+                      const AppSectionHeader(title: 'Opis'),
+                      const SizedBox(height: 5),
                       Text(
                         widget.boulderDetails.description!,
-                        style: context.textTheme.bodyMedium?.copyWith(
+                        style: context.textTheme.bodySmall?.copyWith(
                           color: AppColors.textLight,
                         ),
                       ),
                     ],
+                    const SizedBox(height: 20),
+                    const AppSectionHeader(title: 'Ranking'),
+                    const SizedBox(height: 5),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Positioned(
+                            left: 30,
+                            top: 15,
+                            child: Stack(
+                              alignment: Alignment.bottomRight,
+                              children: [
+                                const LeaderboardAvatar(radius: 45),
+                                Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.grey,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Text(
+                                    '2',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: 40,
+                            top: 25,
+                            child: Stack(
+                              alignment: Alignment.bottomRight,
+                              children: [
+                                const LeaderboardAvatar(radius: 40),
+                                Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                    color: Colors.brown,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Text(
+                                    '3',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              const LeaderboardAvatar(radius: 60),
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
+                                  color: Colors.amber,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Text(
+                                  '1',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class LeaderboardAvatar extends StatelessWidget {
+  const LeaderboardAvatar({
+    required this.radius,
+    super.key,
+  });
+  final double radius;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: AppColors.primary,
+      radius: radius,
+      backgroundImage: const AssetImage(
+        AppMediaRes.deffaultAvatar,
       ),
     );
   }
