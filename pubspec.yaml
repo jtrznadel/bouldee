@@ -15,7 +15,7 @@ dependencies:
     sdk: flutter
   intl: ^0.20.2
   google_fonts: ^6.2.1
-  auto_route: ^9.2.2
+  auto_route: ^10.0.1
   flutter_svg: ^2.0.16
   flutter_dotenv: ^5.2.1
   get_it: ^8.0.3
@@ -43,7 +43,7 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   json_serializable: ^6.8.0
   build_runner: ^2.4.13
-  auto_route_generator: ^9.0.0
+  auto_route_generator: ^10.0.1
   injectable_generator: ^2.7.0
   
 
