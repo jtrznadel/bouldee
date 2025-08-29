@@ -5,7 +5,7 @@ class AppTile extends StatelessWidget {
   const AppTile({
     required this.child,
     super.key,
-    this.color = AppColors.tileColor,
+    this.color = AppColors.onSurface,
     this.padding,
   });
 

@@ -28,7 +28,7 @@ class CreateTrainingSessionModal extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(25).copyWith(bottom: 40),
           decoration: const BoxDecoration(
-            color: AppColors.tileColor,
+            color: AppColors.onSurface,
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
           child: Column(

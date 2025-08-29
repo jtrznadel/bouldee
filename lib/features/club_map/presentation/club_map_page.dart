@@ -52,9 +52,9 @@ class _ClubMapViewState extends State<_ClubMapView> {
         (context.findAncestorWidgetOfExactType<ClubMapPage>()!).clubId;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.surface,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: AppColors.surface,
         title: Text(
           'Block Bouldercenter',
           style: context.textTheme.labelLarge?.copyWith(

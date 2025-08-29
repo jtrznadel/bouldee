@@ -165,7 +165,7 @@ Widget _buildAdvancedLevelAvatar(
         width: radius * 2 + 4,
         height: radius * 2 + 4,
         decoration: const BoxDecoration(
-          color: AppColors.background,
+          color: AppColors.surface,
           shape: BoxShape.circle,
         ),
       ),
@@ -188,7 +188,7 @@ Widget _buildAdvancedLevelAvatar(
           decoration: BoxDecoration(
             color: AppColors.primary,
             borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: AppColors.background, width: 2),
+            border: Border.all(color: AppColors.borderDark, width: 2),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: .4),
@@ -203,7 +203,7 @@ Widget _buildAdvancedLevelAvatar(
               const Icon(
                 LucideIcons.flame,
                 size: 16,
-                color: AppColors.secondary,
+                color: AppColors.textDark,
               ),
               const SizedBox(width: 4),
               Text(

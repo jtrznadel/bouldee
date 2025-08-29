@@ -77,7 +77,7 @@ class HomeLastSession extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 16),
-              const Divider(height: 1, color: AppColors.background),
+              const Divider(height: 1, color: AppColors.surface),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

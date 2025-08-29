@@ -24,7 +24,7 @@ class AppStatisticTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: AppColors.tileColor,
+          color: AppColors.onSurface,
           borderRadius: BorderRadius.circular(AppSizes.defaultRadius),
         ),
         child: Column(

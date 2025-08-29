@@ -8,13 +8,13 @@ class AppTheme {
   static ThemeData theme = ThemeData(
     brightness: Brightness.dark,
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.surface,
       elevation: 0,
       scrolledUnderElevation: 0,
       titleTextStyle: textTheme.labelLarge,
       centerTitle: true,
     ),
-    scaffoldBackgroundColor: AppColors.background,
+    scaffoldBackgroundColor: AppColors.surface,
     textTheme: textTheme,
   );
 }

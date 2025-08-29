@@ -23,7 +23,7 @@ class NavigationWrapperPage extends StatelessWidget {
       builder: (context, child) {
         final tabsRouter = context.tabsRouter;
         return Scaffold(
-          backgroundColor: AppColors.background,
+          backgroundColor: AppColors.surface,
           body: child,
           bottomNavigationBar: AppNavigationBottomBar(
             tabsRouter: tabsRouter,
@@ -57,7 +57,7 @@ class AppNavigationBottomBar extends StatelessWidget {
           ),
           child: BottomAppBar(
             padding: const EdgeInsets.symmetric(horizontal: 10),
-            color: AppColors.background,
+            color: AppColors.surface,
             height: 60,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -104,7 +104,7 @@ class AppNavigationBottomBar extends StatelessWidget {
                   child: Icon(
                     LucideIcons.route,
                     size: 36,
-                    color: AppColors.tileColor,
+                    color: AppColors.textDark,
                   ),
                 ),
               ),

@@ -41,7 +41,7 @@ class ProfileAchivementsSection extends StatelessWidget {
                             actionsPadding: const EdgeInsets.symmetric(
                               horizontal: AppSizes.defaultHorizontalPadding,
                             ),
-                            backgroundColor: AppColors.background,
+                            backgroundColor: AppColors.surface,
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [

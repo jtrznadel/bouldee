@@ -8,7 +8,7 @@ class AppOutlinedButton extends StatelessWidget {
     required this.onPressed,
     this.text,
     this.borderColor = AppColors.primary,
-    this.backgroundColor = AppColors.background,
+    this.backgroundColor = AppColors.surface,
     this.textColor = AppColors.textLight,
     super.key,
     this.iconPath,

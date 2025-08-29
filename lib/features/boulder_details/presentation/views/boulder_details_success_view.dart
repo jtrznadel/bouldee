@@ -2,12 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
 import 'package:bouldee/app/constants/app_media_resources.dart';
 import 'package:bouldee/app/constants/app_sizes.dart';
+import 'package:bouldee/app/dependency_injection/dependency_injection.dart';
 import 'package:bouldee/app/extensions/context_extensions.dart';
 import 'package:bouldee/app/utilities/boulder_utils.dart';
 import 'package:bouldee/app/widgets/app_badge.dart';
 import 'package:bouldee/app/widgets/app_divider.dart';
 import 'package:bouldee/app/widgets/app_section_header.dart';
 import 'package:bouldee/app/widgets/app_statistic_tile.dart';
+import 'package:bouldee/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bouldee/features/boulder_details/domain/entities/boulder_details_entity.dart';
 import 'package:bouldee/features/club_map/presentation/club_map_page.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -61,12 +63,13 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        bottom: false,
         child: CustomScrollView(
           controller: _scrollController,
           slivers: [
             SliverAppBar(
               pinned: true,
-              backgroundColor: AppColors.background,
+              backgroundColor: AppColors.surface,
               title: AnimatedOpacity(
                 opacity: _showTitle ? 1.0 : 0.0,
                 duration: const Duration(milliseconds: 200),
@@ -133,12 +136,12 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                                       .toStringAsFixed(1),
                                   style:
                                       context.textTheme.labelMedium?.copyWith(
-                                    color: AppColors.secondary,
+                                    color: AppColors.textDark,
                                   ),
                                 ),
                                 const Icon(
                                   Icons.star_rate_rounded,
-                                  color: AppColors.secondary,
+                                  color: AppColors.textDark,
                                   size: 19,
                                 ),
                               ],
@@ -157,7 +160,7 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                     Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color: AppColors.tileColor,
+                        color: AppColors.onSurface,
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
@@ -415,6 +418,34 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                           ),
                         ],
                       ),
+                    ),
+                    ListView.builder(
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          leading: const LeaderboardAvatar(radius: 30),
+                          title: Text(
+                            'Michał',
+                            style: context.textTheme.labelMedium?.copyWith(
+                              color: AppColors.textLight,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'Ocena: ${index + 1}',
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                          trailing: Text(
+                            '${index + 1}',
+                            style: context.textTheme.labelMedium?.copyWith(
+                              color: AppColors.textLight,
+                            ),
+                          ),
+                        );
+                      },
+                      itemCount: 5,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
                     ),
                   ],
                 ),

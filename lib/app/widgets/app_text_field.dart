@@ -54,25 +54,25 @@ class AppTextField extends StatelessWidget {
           keyboardType: keyboardType,
           obscureText: obscureText,
           decoration: InputDecoration(
-            fillColor: AppColors.secondary,
+            fillColor: AppColors.onSurface,
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                color: AppColors.secondary,
+                color: AppColors.onSurface,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                color: AppColors.secondary,
+                color: AppColors.onSurface,
                 width: 2,
               ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15),
               borderSide: const BorderSide(
-                color: AppColors.secondary,
+                color: AppColors.onSurface,
               ),
             ),
             hintText: hint,

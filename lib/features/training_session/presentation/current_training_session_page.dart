@@ -111,13 +111,13 @@ class _CurrentTrainingSessionPageState extends State<CurrentTrainingSessionPage>
     TrainingSessionEntity session,
   ) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.onSurface,
       body: NestedScrollView(
         controller: _scrollController,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              backgroundColor: AppColors.background,
+              backgroundColor: AppColors.onSurface,
               pinned: true,
               expandedHeight: 180,
               title: _isShowingStats
@@ -182,7 +182,7 @@ class _CurrentTrainingSessionPageState extends State<CurrentTrainingSessionPage>
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(48),
                 child: ColoredBox(
-                  color: AppColors.background,
+                  color: AppColors.onSurface,
                   child: TabBar(
                     controller: _tabController,
                     indicatorColor: AppColors.primary,
@@ -212,7 +212,7 @@ class _CurrentTrainingSessionPageState extends State<CurrentTrainingSessionPage>
         elevation: 4,
         child: const Icon(
           LucideIcons.scanQrCode,
-          color: AppColors.tileColor,
+          color: AppColors.textDark,
         ),
       ),
     );
@@ -304,7 +304,7 @@ class _CurrentTrainingSessionPageState extends State<CurrentTrainingSessionPage>
         final boulder = session.boulders[index];
         return Card(
           margin: const EdgeInsets.only(bottom: 16),
-          color: AppColors.tileColor,
+          color: AppColors.surface,
           child: ListTile(
             title: Text(
               'Problem ${index + 1}',
@@ -366,7 +366,7 @@ class _CurrentTrainingSessionPageState extends State<CurrentTrainingSessionPage>
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        surfaceTintColor: AppColors.tileColor,
+        surfaceTintColor: AppColors.surface,
         title: Text(
           'Zakończyć sesje?',
           style: context.textTheme.labelLarge?.copyWith(
@@ -402,7 +402,7 @@ class _CurrentTrainingSessionPageState extends State<CurrentTrainingSessionPage>
             child: Text(
               'Zakończ',
               style: context.textTheme.labelMedium?.copyWith(
-                color: AppColors.tileColor,
+                color: AppColors.textDark,
               ),
             ),
           ),

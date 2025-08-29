@@ -127,21 +127,21 @@ class SignInForm extends StatelessWidget {
                     Expanded(
                       child: AppButton(
                         iconPath: AppMediaRes.googleLogo,
-                        color: AppColors.secondary,
+                        color: AppColors.onSurface,
                         onPressed: () {},
                       ),
                     ),
                     Expanded(
                       child: AppButton(
                         iconPath: AppMediaRes.appleLogo,
-                        color: AppColors.secondary,
+                        color: AppColors.onSurface,
                         onPressed: () {},
                       ),
                     ),
                     Expanded(
                       child: AppButton(
                         iconPath: AppMediaRes.facebookLogo,
-                        color: AppColors.secondary,
+                        color: AppColors.onSurface,
                         onPressed: () {},
                       ),
                     ),
