@@ -5,9 +5,9 @@ class AppColors {
 
   static const primary = Color(0xFFB3E429);
 
-  static const onSurface = Color(0xFF1C1C1E);
+  static const onSurface = Color(0xFF2C2C2C);
 
-  static const surface = Color(0xFF0F1014);
+  static const surface = Color(0xFF252525);
 
   static const textLight = Color(0xFFFFFFFF);
 

@@ -6,7 +6,6 @@ class AppTheme {
   const AppTheme._();
 
   static ThemeData theme = ThemeData(
-    brightness: Brightness.dark,
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.surface,
       elevation: 0,
@@ -16,5 +15,8 @@ class AppTheme {
     ),
     scaffoldBackgroundColor: AppColors.surface,
     textTheme: textTheme,
+    iconTheme: const IconThemeData(
+      color: AppColors.textLight,
+    ),
   );
 }

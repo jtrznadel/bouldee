@@ -30,8 +30,8 @@ class BoulderDetailsSuccessView extends StatefulWidget {
 }
 
 class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
-  bool _showTitle = false;
   final ScrollController _scrollController = ScrollController();
+  bool _showTitle = false;
 
   @override
   void initState() {
@@ -41,418 +41,428 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
     super.dispose();
   }
 
   void _onScroll() {
-    if (_scrollController.offset > 40 && !_showTitle) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final imageHeight = screenHeight * 0.4;
+    // Pokazuj tytuł gdy zescrollujemy więcej niż połowę obrazka
+    final showTitle = _scrollController.hasClients &&
+        _scrollController.offset >
+            (imageHeight - kToolbarHeight - MediaQuery.of(context).padding.top);
+
+    if (showTitle != _showTitle) {
       setState(() {
-        _showTitle = true;
-      });
-    } else if (_scrollController.offset <= 40 && _showTitle) {
-      setState(() {
-        _showTitle = false;
+        _showTitle = showTitle;
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final imageHeight = screenHeight * 0.4;
+
     return Scaffold(
-      body: SafeArea(
-        bottom: false,
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              backgroundColor: AppColors.surface,
-              title: AnimatedOpacity(
-                opacity: _showTitle ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 200),
-                child: Text(
-                  widget.boulderDetails.name,
-                  style: context.textTheme.labelLarge?.copyWith(
-                    color: AppColors.textLight,
-                  ),
+      backgroundColor: AppColors.surface,
+      body: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          // SliverAppBar ze zdjęciem
+          SliverAppBar(
+            expandedHeight: imageHeight,
+            pinned: true,
+            backgroundColor: AppColors.surface,
+            elevation: 0,
+            leading: Container(
+              margin: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.3),
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                icon: const Icon(
+                  LucideIcons.chevronLeft,
+                  color: Colors.white,
+                ),
+                onPressed: () => context.router.maybePop(),
+              ),
+            ),
+            title: AnimatedOpacity(
+              opacity: _showTitle ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 200),
+              child: Text(
+                widget.boulderDetails.name,
+                style: context.textTheme.labelLarge?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              actionsPadding: const EdgeInsets.only(
-                right: AppSizes.defaultHorizontalPadding,
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                fit: StackFit.expand,
+                children: [
+                  if (widget.boulderDetails.imageUrl != null)
+                    Image.network(
+                      widget.boulderDetails.imageUrl!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          AppMediaRes.deffaultBoulderImage,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    )
+                  else
+                    Image.asset(
+                      AppMediaRes.deffaultBoulderImage,
+                      fit: BoxFit.cover,
+                    ),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.3),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              actions: [
-                AnimatedOpacity(
-                  opacity: _showTitle ? 1 : 0,
-                  duration: const Duration(milliseconds: 200),
-                  child: GradeBadge(
+            ),
+          ),
+
+          // Nagłówek z informacjami
+          SliverToBoxAdapter(
+            child: Container(
+              color: AppColors.surface,
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  GradeBadge(
                     grade: widget.boulderDetails.grade,
                     color: BoulderUtils.getDifficultyColor(
                       widget.boulderDetails.grade,
                     ),
                   ),
-                ),
-              ],
-              leading: IconButton(
-                icon: const Icon(LucideIcons.chevronLeft),
-                onPressed: () => context.router.maybePop(),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        GradeBadge(
-                          grade: widget.boulderDetails.grade,
-                          color: BoulderUtils.getDifficultyColor(
-                            widget.boulderDetails.grade,
+                        Text(
+                          widget.boulderDetails.name,
+                          style: context.textTheme.labelLarge?.copyWith(
+                            color: AppColors.textLight,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Setter: ${widget.boulderDetails.setter}',
+                          style: context.textTheme.labelSmall?.copyWith(
+                            color: AppColors.textSecondary,
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            widget.boulderDetails.name,
-                            style: context.textTheme.labelLarge?.copyWith(
-                              color: AppColors.textLight,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (widget.boulderDetails.rating != null)
-                          AppBadge(
-                            color: AppColors.primary,
-                            content: Row(
-                              spacing: 2,
-                              children: [
-                                Text(
-                                  widget.boulderDetails.rating!
-                                      .toStringAsFixed(1),
-                                  style:
-                                      context.textTheme.labelMedium?.copyWith(
-                                    color: AppColors.textDark,
-                                  ),
-                                ),
-                                const Icon(
-                                  Icons.star_rate_rounded,
-                                  color: AppColors.textDark,
-                                  size: 19,
-                                ),
-                              ],
-                            ),
-                          ),
                       ],
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      'Setter: ${widget.boulderDetails.setter}',
-                      style: context.textTheme.labelSmall?.copyWith(
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: BoxDecoration(
-                        color: AppColors.onSurface,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: .2),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
+                  ),
+                  if (widget.boulderDetails.rating != null)
+                    AppBadge(
+                      color: AppColors.primary,
+                      content: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            widget.boulderDetails.rating!.toStringAsFixed(1),
+                            style: context.textTheme.labelMedium?.copyWith(
+                              color: AppColors.textDark,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Icon(
+                            Icons.star_rate_rounded,
+                            color: AppColors.textDark,
+                            size: 18,
                           ),
                         ],
                       ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(5),
-                        child: widget.boulderDetails.imageUrl != null
-                            ? Image.network(
-                                widget.boulderDetails.imageUrl!,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: 200,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Center(
-                                    child: Icon(
-                                      LucideIcons.imageOff,
-                                      color: AppColors.textSecondary,
-                                      size: 36,
-                                    ),
-                                  );
-                                },
-                              )
-                            : Image.asset(
-                                AppMediaRes.deffaultBoulderImage,
-                                fit: BoxFit.cover,
-                                width: double.infinity,
-                                height: 200,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Center(
-                                    child: Icon(
-                                      LucideIcons.imageOff,
-                                      color: AppColors.textSecondary,
-                                      size: 36,
-                                    ),
-                                  );
-                                },
-                              ),
-                      ),
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      spacing: 10,
-                      children: [
-                        AppStatisticTile(
-                          title: 'Flash',
-                          value: widget.boulderDetails.flash,
-                          isPercent: true,
-                        ),
-                        AppStatisticTile(
-                          title: 'Top',
-                          value: widget.boulderDetails.top,
-                          isPercent: true,
-                        ),
-                        AppStatisticTile(
-                          title: 'Średnia prób',
-                          value: widget.boulderDetails.attemptsAvg,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Row(
-                      children: [
-                        const AppSectionHeader(title: 'Ocena trudności ~ '),
-                        GradeBadge(
-                          grade: widget.boulderDetails.grade,
-                          color: BoulderUtils.getDifficultyColor(
-                            widget.boulderDetails.grade,
-                          ),
-                        ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: () {},
-                          child: Row(
-                            children: [
-                              const Icon(
-                                LucideIcons.info,
-                                color: AppColors.textSecondary,
-                                size: 12,
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                'Jak to działa?',
-                                style: context.textTheme.labelSmall?.copyWith(
-                                  color: AppColors.textSecondary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      height: 80,
-                      child: BarChart(
-                        BarChartData(
-                          alignment: BarChartAlignment.spaceAround,
-                          barGroups: [
-                            for (int i = 1; i <= 8; i++)
-                              BarChartGroupData(
-                                x: i,
-                                barRods: [
-                                  BarChartRodData(
-                                    toY: i * 10.0,
-                                    color: AppColors.primary,
-                                    width: 32,
-                                    borderRadius: const BorderRadius.vertical(
-                                      top: Radius.circular(6),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                          ],
-                          titlesData: FlTitlesData(
-                            leftTitles: const AxisTitles(),
-                            bottomTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                reservedSize: 30,
-                                getTitlesWidget: (value, meta) {
-                                  final grade = 'V${value.toInt()}';
+                ],
+              ),
+            ),
+          ),
 
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 4,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: BoulderUtils.getDifficultyColor(
-                                          widget.boulderDetails.grade,
-                                        ),
-                                        borderRadius:
-                                            const BorderRadius.vertical(
-                                          bottom: Radius.circular(6),
-                                        ),
-                                      ),
-                                      child: Text(
-                                        grade,
-                                        style: context.textTheme.labelSmall
-                                            ?.copyWith(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
+          // Główna zawartość
+          SliverToBoxAdapter(
+            child: Container(
+              color: AppColors.surface,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Statystyki
+                  Row(
+                    children: [
+                      AppStatisticTile(
+                        title: 'Flash',
+                        value: widget.boulderDetails.flash,
+                        isPercent: true,
+                      ),
+                      const SizedBox(width: 10),
+                      AppStatisticTile(
+                        title: 'Top',
+                        value: widget.boulderDetails.top,
+                        isPercent: true,
+                      ),
+                      const SizedBox(width: 10),
+                      AppStatisticTile(
+                        title: 'Średnia prób',
+                        value: widget.boulderDetails.attemptsAvg,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Ocena trudności
+                  Row(
+                    children: [
+                      const AppSectionHeader(title: 'Ocena trudności ~ '),
+                      GradeBadge(
+                        grade: widget.boulderDetails.grade,
+                        color: BoulderUtils.getDifficultyColor(
+                          widget.boulderDetails.grade,
+                        ),
+                      ),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {},
+                        child: Row(
+                          children: [
+                            const Icon(
+                              LucideIcons.info,
+                              color: AppColors.textSecondary,
+                              size: 12,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              'Jak to działa?',
+                              style: context.textTheme.labelSmall?.copyWith(
+                                color: AppColors.textSecondary,
                               ),
                             ),
-                            topTitles: const AxisTitles(),
-                            rightTitles: const AxisTitles(),
-                          ),
-                          borderData: FlBorderData(show: false),
-                          gridData: const FlGridData(show: false),
-                        ),
-                      ),
-                    ),
-                    if (widget.boulderDetails.description != null) ...[
-                      const SizedBox(height: 20),
-                      const AppSectionHeader(title: 'Opis'),
-                      const SizedBox(height: 5),
-                      Text(
-                        widget.boulderDetails.description!,
-                        style: context.textTheme.bodySmall?.copyWith(
-                          color: AppColors.textLight,
+                          ],
                         ),
                       ),
                     ],
-                    const SizedBox(height: 20),
-                    const AppSectionHeader(title: 'Ranking'),
-                    const SizedBox(height: 5),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Positioned(
-                            left: 30,
-                            top: 15,
-                            child: Stack(
-                              alignment: Alignment.bottomRight,
-                              children: [
-                                const LeaderboardAvatar(radius: 45),
-                                Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.grey,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Text(
-                                    '2',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Wykres
+                  SizedBox(
+                    height: 120,
+                    child: BarChart(
+                      BarChartData(
+                        alignment: BarChartAlignment.spaceAround,
+                        barGroups: [
+                          for (int i = 1; i <= 8; i++)
+                            BarChartGroupData(
+                              x: i,
+                              barRods: [
+                                BarChartRodData(
+                                  toY: i * 10.0,
+                                  color: AppColors.primary,
+                                  width: 24,
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(4),
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                          Positioned(
-                            right: 40,
-                            top: 25,
-                            child: Stack(
-                              alignment: Alignment.bottomRight,
-                              children: [
-                                const LeaderboardAvatar(radius: 40),
-                                Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.brown,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: const Text(
-                                    '3',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                        ],
+                        titlesData: FlTitlesData(
+                          leftTitles: const AxisTitles(),
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 40,
+                              getTitlesWidget: (value, meta) {
+                                final grade = 'V${value.toInt()}';
+                                return Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: BoulderUtils.getDifficultyColor(
+                                        widget.boulderDetails.grade,
+                                      ),
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Text(
+                                      grade,
+                                      style: context.textTheme.labelSmall
+                                          ?.copyWith(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                );
+                              },
                             ),
                           ),
-                          Stack(
-                            alignment: Alignment.bottomRight,
-                            children: [
-                              const LeaderboardAvatar(radius: 60),
-                              Container(
-                                padding: const EdgeInsets.all(5),
-                                decoration: const BoxDecoration(
-                                  color: Colors.amber,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Text(
-                                  '1',
-                                  style: TextStyle(
+                          topTitles: const AxisTitles(),
+                          rightTitles: const AxisTitles(),
+                        ),
+                        borderData: FlBorderData(show: false),
+                        gridData: const FlGridData(show: false),
+                      ),
+                    ),
+                  ),
+
+                  // Opis
+                  if (widget.boulderDetails.description != null) ...[
+                    const SizedBox(height: 24),
+                    const AppSectionHeader(title: 'Opis'),
+                    const SizedBox(height: 8),
+                    Text(
+                      widget.boulderDetails.description!,
+                      style: context.textTheme.bodySmall?.copyWith(
+                        color: AppColors.textLight,
+                      ),
+                    ),
+                  ],
+
+                  // Ranking - podium
+                  const SizedBox(height: 24),
+                  const AppSectionHeader(title: 'Ranking'),
+
+                  // Podium
+                  const SizedBox(
+                    height: 120,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        LeaderboardAvatar(
+                          position: 1,
+                          color: Colors.grey,
+                          radius: 50,
+                        ),
+                        SizedBox(width: 8),
+                        LeaderboardAvatar(
+                          position: 1,
+                          color: Colors.amber,
+                          radius: 60,
+                        ),
+                        SizedBox(width: 8),
+                        LeaderboardAvatar(
+                          position: 3,
+                          color: Colors.brown,
+                          radius: 40,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+                  AppDivider.horizontal(),
+
+                  // Lista rankingu
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: 7,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 8),
+                    itemBuilder: (context, index) {
+                      final position = index + 4;
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.onSurface,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 32,
+                              height: 32,
+                              decoration: BoxDecoration(
+                                color: AppColors.textSecondary,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '$position',
+                                  style:
+                                      context.textTheme.labelMedium?.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    ListView.builder(
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          leading: const LeaderboardAvatar(radius: 30),
-                          title: Text(
-                            'Michał',
-                            style: context.textTheme.labelMedium?.copyWith(
-                              color: AppColors.textLight,
                             ),
-                          ),
-                          subtitle: Text(
-                            'Ocena: ${index + 1}',
-                            style: context.textTheme.bodySmall?.copyWith(
+                            const SizedBox(width: 12),
+                            const LeaderboardAvatar(
+                              radius: 20,
+                              position: 4,
                               color: AppColors.textSecondary,
                             ),
-                          ),
-                          trailing: Text(
-                            '${index + 1}',
-                            style: context.textTheme.labelMedium?.copyWith(
-                              color: AppColors.textLight,
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Użytkownik $position',
+                                    style:
+                                        context.textTheme.labelMedium?.copyWith(
+                                      color: AppColors.textLight,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Ocena: ${(10 - position).toStringAsFixed(1)}',
+                                    style:
+                                        context.textTheme.bodySmall?.copyWith(
+                                      color: AppColors.textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                      },
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                    ),
-                  ],
-                ),
+                            const Icon(
+                              LucideIcons.star,
+                              color: AppColors.primary,
+                              size: 16,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+
+                  const SizedBox(height: 24),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -460,19 +470,65 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
 
 class LeaderboardAvatar extends StatelessWidget {
   const LeaderboardAvatar({
+    required this.color,
+    required this.position,
     required this.radius,
     super.key,
   });
+
+  final int position;
+  final Color color;
   final double radius;
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundColor: AppColors.primary,
-      radius: radius,
-      backgroundImage: const AssetImage(
-        AppMediaRes.deffaultAvatar,
-      ),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: color,
+              width: 3,
+            ),
+          ),
+          child: CircleAvatar(
+            backgroundColor: AppColors.surface,
+            radius: radius,
+            backgroundImage: const AssetImage(
+              AppMediaRes.deffaultAvatar,
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: -10,
+          left: 0,
+          right: 0,
+          child: Center(
+            child: Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                color: color,
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: color,
+                  width: 2,
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  '$position',
+                  style: context.textTheme.labelSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
