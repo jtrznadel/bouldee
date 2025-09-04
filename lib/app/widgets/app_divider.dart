@@ -3,53 +3,33 @@ import 'package:flutter/material.dart';
 
 class AppDivider extends StatelessWidget {
   const AppDivider({
-    required this.width,
-    required this.height,
     super.key,
     this.text,
+    this.verticalPadding,
+    this.horizontalPadding,
   });
-
-  factory AppDivider.vertical({
-    String width = '1',
-    String height = '100%',
-  }) {
-    return AppDivider(
-      width: width,
-      height: height,
-    );
-  }
-
-  factory AppDivider.horizontal({
-    String width = '100%',
-    String height = '1',
-  }) {
-    return AppDivider(
-      width: width,
-      height: height,
-    );
-  }
 
   factory AppDivider.horizontalWithText({
     required String text,
-    String width = '100%',
-    String height = '1',
+    EdgeInsets? padding,
   }) {
     return AppDivider(
-      width: width,
-      height: height,
       text: text,
+      verticalPadding: padding?.vertical,
+      horizontalPadding: padding?.horizontal,
     );
   }
 
-  final String width;
-  final String height;
   final String? text;
+  final double? verticalPadding;
+  final double? horizontalPadding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 10,
+      padding: EdgeInsets.symmetric(
+        vertical: verticalPadding ?? 10,
+        horizontal: horizontalPadding ?? 0,
       ),
       child: Row(
         children: [

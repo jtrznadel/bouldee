@@ -350,41 +350,82 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                   const AppSectionHeader(title: 'Ranking'),
 
                   // Podium
-                  const SizedBox(
-                    height: 120,
+                  SizedBox(
+                    height: 165,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        LeaderboardAvatar(
-                          position: 1,
-                          color: Colors.grey,
-                          radius: 50,
+                        Column(
+                          children: [
+                            const Spacer(),
+                            const LeaderboardAvatar(
+                              highlithed: true,
+                              position: 1,
+                              color: Colors.grey,
+                              radius: 50,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Maciej',
+                              style: context.textTheme.labelMedium?.copyWith(
+                                color: AppColors.textLight,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(width: 8),
-                        LeaderboardAvatar(
-                          position: 1,
-                          color: Colors.amber,
-                          radius: 60,
+                        const SizedBox(width: 8),
+                        Column(
+                          children: [
+                            const Spacer(),
+                            const LeaderboardAvatar(
+                              highlithed: true,
+                              position: 1,
+                              color: Colors.amber,
+                              radius: 60,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Mariusz',
+                              style: context.textTheme.labelMedium?.copyWith(
+                                color: AppColors.textLight,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(width: 8),
-                        LeaderboardAvatar(
-                          position: 3,
-                          color: Colors.brown,
-                          radius: 40,
+                        const SizedBox(width: 8),
+                        Column(
+                          children: [
+                            const Spacer(),
+                            const LeaderboardAvatar(
+                              highlithed: true,
+                              position: 3,
+                              color: Colors.brown,
+                              radius: 40,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'Janusz',
+                              style: context.textTheme.labelMedium?.copyWith(
+                                color: AppColors.textLight,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
 
-                  const SizedBox(height: 16),
-                  AppDivider.horizontal(),
+                  const SizedBox(height: 8),
+                  const AppDivider(
+                    verticalPadding: 5,
+                  ),
 
                   // Lista rankingu
                   ListView.separated(
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 7,
+                    itemCount: 5,
+                    padding: EdgeInsets.zero,
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 8),
                     itemBuilder: (context, index) {
@@ -456,8 +497,6 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                       );
                     },
                   ),
-
-                  const SizedBox(height: 24),
                 ],
               ),
             ),
@@ -473,12 +512,14 @@ class LeaderboardAvatar extends StatelessWidget {
     required this.color,
     required this.position,
     required this.radius,
+    this.highlithed = false,
     super.key,
   });
 
   final int position;
   final Color color;
   final double radius;
+  final bool highlithed;
 
   @override
   Widget build(BuildContext context) {
@@ -501,33 +542,34 @@ class LeaderboardAvatar extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          bottom: -10,
-          left: 0,
-          right: 0,
-          child: Center(
-            child: Container(
-              width: 24,
-              height: 24,
-              decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-                border: Border.all(
+        if (highlithed)
+          Positioned(
+            bottom: -10,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
                   color: color,
-                  width: 2,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: color,
+                    width: 2,
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Text(
-                  '$position',
-                  style: context.textTheme.labelSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
+                child: Center(
+                  child: Text(
+                    '$position',
+                    style: context.textTheme.labelSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
       ],
     );
   }
