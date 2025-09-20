@@ -6,23 +6,29 @@ class AppTile extends StatelessWidget {
     required this.child,
     super.key,
     this.color = AppColors.onSurface,
-    this.padding,
+    this.innerPadding,
+    this.outerPadding,
   });
 
   final Color color;
   final Widget child;
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? innerPadding;
+  final EdgeInsetsGeometry? outerPadding;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(20),
+    return Padding(
+      padding: outerPadding ?? EdgeInsets.zero,
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: innerPadding ??
+            const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: child,
       ),
-      padding: padding ?? const EdgeInsets.all(15),
-      child: child,
     );
   }
 }
