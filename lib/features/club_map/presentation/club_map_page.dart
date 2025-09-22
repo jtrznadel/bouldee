@@ -1,15 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
+import 'package:bouldee/app/constants/app_media_resources.dart';
 import 'package:bouldee/app/dependency_injection/dependency_injection.dart';
 import 'package:bouldee/app/extensions/context_extensions.dart';
 import 'package:bouldee/app/routing/app_router.gr.dart';
 import 'package:bouldee/app/utilities/boulder_utils.dart';
+import 'package:bouldee/app/widgets/app_button.dart';
 import 'package:bouldee/app/widgets/app_loading_indicator.dart';
+import 'package:bouldee/features/boulder_details/presentation/bloc/boulder_details_bloc.dart';
 import 'package:bouldee/features/club_map/domain/entities/area_entity.dart';
 import 'package:bouldee/features/club_map/domain/entities/boulder_entity.dart';
 import 'package:bouldee/features/club_map/presentation/bloc/club_map_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 @RoutePage()
 class ClubMapPage extends StatelessWidget {
@@ -52,86 +56,97 @@ class _ClubMapViewState extends State<_ClubMapView> {
         (context.findAncestorWidgetOfExactType<ClubMapPage>()!).clubId;
 
     return Scaffold(
-      backgroundColor: AppColors.surface,
-      appBar: AppBar(
-        backgroundColor: AppColors.surface,
-        title: Text(
-          'Block Bouldercenter',
-          style: context.textTheme.labelLarge?.copyWith(
-            color: AppColors.textLight,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: BlocBuilder<ClubMapBloc, ClubMapState>(
+              builder: (context, state) {
+                if (state is ClubMapLoading) {
+                  return const Center(child: AppLoadingIndicator());
+                } else if (state is AreaError) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Error: ${state.message}',
+                          style: const TextStyle(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            context.read<ClubMapBloc>().add(
+                                  LoadClubMapData(clubId: clubId),
+                                );
+                          },
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (state is ClubMapLoaded) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: InteractiveViewer(
+                          transformationController: _transformationController,
+                          minScale: 0.2,
+                          maxScale: 3,
+                          constrained: false,
+                          onInteractionUpdate: (details) {
+                            setState(() {
+                              _currentScale = _transformationController.value
+                                  .getMaxScaleOnAxis();
+                            });
+                          },
+                          child: Center(
+                            child: Stack(
+                              children: [
+                                _buildGymLayout(state.areas),
+                                ..._buildBoulderMarkers(state.boulders),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                return const SizedBox.shrink();
+              },
+            ),
           ),
-        ),
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.replay),
-            onPressed: () {
-              _transformationController.value = Matrix4.identity();
-              setState(() {
-                _currentScale = 1.0;
-              });
-            },
-          ),
-        ],
-      ),
-      body: BlocBuilder<ClubMapBloc, ClubMapState>(
-        builder: (context, state) {
-          if (state is ClubMapLoading) {
-            return const Center(child: AppLoadingIndicator());
-          } else if (state is AreaError) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+          Positioned(
+            top: 60,
+            right: 20,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              decoration: ShapeDecoration(
+                color: AppColors.onSurface,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Row(
+                spacing: 4,
                 children: [
-                  Text(
-                    'Error: ${state.message}',
-                    style: const TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
+                  const Icon(
+                    LucideIcons.filter,
+                    color: AppColors.textLight,
+                    size: 20,
                   ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () {
-                      context.read<ClubMapBloc>().add(
-                            LoadClubMapData(clubId: clubId),
-                          );
-                    },
-                    child: const Text('Retry'),
+                  Text(
+                    'Filtry',
+                    style: context.textTheme.bodyMedium
+                        ?.copyWith(color: AppColors.textLight),
                   ),
                 ],
               ),
-            );
-          } else if (state is ClubMapLoaded) {
-            return Column(
-              children: [
-                Expanded(
-                  child: InteractiveViewer(
-                    transformationController: _transformationController,
-                    minScale: 0.5,
-                    maxScale: 3,
-                    constrained: false,
-                    onInteractionUpdate: (details) {
-                      setState(() {
-                        _currentScale =
-                            _transformationController.value.getMaxScaleOnAxis();
-                      });
-                    },
-                    child: Center(
-                      child: Stack(
-                        children: [
-                          _buildGymLayout(state.areas),
-                          ..._buildBoulderMarkers(state.boulders),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          }
-
-          return const SizedBox.shrink();
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -140,7 +155,7 @@ class _ClubMapViewState extends State<_ClubMapView> {
     return Container(
       width: 1000,
       height: 800,
-      color: Colors.grey.shade800,
+      color: AppColors.surface,
       child: CustomPaint(
         painter: GymLayoutPainter(
           areas: areas,
@@ -160,7 +175,24 @@ class _ClubMapViewState extends State<_ClubMapView> {
           top: boulder.y,
           child: GestureDetector(
             onTap: () {
-              context.router.push(BoulderDetailsRoute(boulderId: boulder.id));
+              showModalBottomSheet<void>(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 32,
+                    left: 16,
+                    right: 16,
+                    top: 16,
+                  ),
+                  child: BlocProvider(
+                    create: (_) => getIt<BoulderDetailsBloc>()
+                      ..add(GetBoulderDetailsEvent(boulderId: boulder.id)),
+                    child: const BoulderDetailsPreview(),
+                  ),
+                ),
+              );
             },
             child: Container(
               width: 24 / _currentScale,
@@ -293,4 +325,133 @@ class GymLayoutPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+}
+
+class BoulderDetailsPreview extends StatelessWidget {
+  const BoulderDetailsPreview({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<BoulderDetailsBloc, BoulderDetailsState>(
+      listener: (context, state) {
+        if (state is BoulderDetailsError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is BoulderDetailsLoading) {
+          return const AppLoadingIndicator();
+        } else if (state is BoulderDetailsLoaded) {
+          final boulderDetails = state.boulderDetails;
+          return Container(
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: .3),
+                  spreadRadius: 2,
+                  blurRadius: 8,
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(16),
+                  ),
+                  child: Stack(
+                    children: [
+                      if (boulderDetails.imageUrl != null)
+                        Image.network(
+                          boulderDetails.imageUrl!,
+                          width: double.infinity,
+                          height: 200,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Image.asset(
+                            AppMediaRes.deffaultBoulderImage,
+                            width: double.infinity,
+                            height: 200,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      else
+                        Image.asset(
+                          AppMediaRes.deffaultBoulderImage,
+                          width: double.infinity,
+                          height: 200,
+                          fit: BoxFit.cover,
+                        ),
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                            color: AppColors.onSurface,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Icon(
+                              LucideIcons.x,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        boulderDetails.name,
+                        style: context.textTheme.headlineSmall?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        boulderDetails.description ?? '...',
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      AppButton.small(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          context.router.push(
+                            BoulderDetailsRoute(
+                              boulderId: boulderDetails.id,
+                            ),
+                          );
+                        },
+                        text: 'Zobacz więcej',
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+    );
+  }
 }

@@ -90,8 +90,10 @@ class HomePage extends StatelessWidget {
               const AppPremiumLogo(),
               GestureDetector(
                 onTap: () => _showPremiumModal(context),
-                child: const Icon(LucideIcons.circleFadingArrowUp,
-                    color: AppColors.primary),
+                child: const Icon(
+                  LucideIcons.circleFadingArrowUp,
+                  color: AppColors.primary,
+                ),
               ),
             ],
           ),

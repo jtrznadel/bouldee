@@ -9,29 +9,51 @@ class AppButton extends StatelessWidget {
     this.text,
     this.color = AppColors.primary,
     this.textColor = AppColors.textPrimary,
+    this.isSmall = false,
     super.key,
     this.iconPath,
   });
+
+  factory AppButton.small({
+    required VoidCallback onPressed,
+    String? text,
+    String? iconPath,
+    Color color = AppColors.primary,
+    Color textColor = AppColors.textPrimary,
+    bool isSmall = true,
+    Key? key,
+  }) {
+    return AppButton(
+      onPressed: onPressed,
+      text: text,
+      iconPath: iconPath,
+      color: color,
+      textColor: textColor,
+      key: key,
+      isSmall: isSmall,
+    );
+  }
 
   final Color color;
   final Color textColor;
   final String? text;
   final String? iconPath;
   final VoidCallback onPressed;
+  final bool isSmall;
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(12),
       color: color,
       child: InkWell(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(12),
         onTap: onPressed,
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: EdgeInsets.symmetric(vertical: isSmall ? 8 : 16),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +68,9 @@ class AppButton extends StatelessWidget {
               if (text != null)
                 Text(
                   text!,
-                  style: context.textTheme.labelLarge,
+                  style: isSmall
+                      ? context.textTheme.labelSmall
+                      : context.textTheme.labelMedium,
                 ),
             ],
           ),

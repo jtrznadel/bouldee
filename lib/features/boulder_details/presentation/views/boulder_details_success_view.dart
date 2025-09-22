@@ -49,7 +49,6 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
   void _onScroll() {
     final screenHeight = MediaQuery.of(context).size.height;
     final imageHeight = screenHeight * 0.4;
-    // Pokazuj tytuł gdy zescrollujemy więcej niż połowę obrazka
     final showTitle = _scrollController.hasClients &&
         _scrollController.offset >
             (imageHeight - kToolbarHeight - MediaQuery.of(context).padding.top);
@@ -71,7 +70,6 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
-          // SliverAppBar ze zdjęciem
           SliverAppBar(
             expandedHeight: imageHeight,
             pinned: true,
@@ -138,8 +136,6 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
               ),
             ),
           ),
-
-          // Nagłówek z informacjami
           SliverToBoxAdapter(
             child: Container(
               color: AppColors.surface,
@@ -201,8 +197,6 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
               ),
             ),
           ),
-
-          // Główna zawartość
           SliverToBoxAdapter(
             child: Container(
               color: AppColors.surface,
@@ -210,7 +204,6 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Statystyki
                   Row(
                     children: [
                       AppStatisticTile(
@@ -232,8 +225,6 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                     ],
                   ),
                   const SizedBox(height: 24),
-
-                  // Ocena trudności
                   Row(
                     children: [
                       const AppSectionHeader(title: 'Ocena trudności ~ '),
@@ -266,8 +257,6 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                     ],
                   ),
                   const SizedBox(height: 16),
-
-                  // Wykres
                   SizedBox(
                     height: 120,
                     child: BarChart(
@@ -331,8 +320,6 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                       ),
                     ),
                   ),
-
-                  // Opis
                   if (widget.boulderDetails.description != null) ...[
                     const SizedBox(height: 24),
                     const AppSectionHeader(title: 'Opis'),
@@ -344,12 +331,8 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                       ),
                     ),
                   ],
-
-                  // Ranking - podium
                   const SizedBox(height: 24),
                   const AppSectionHeader(title: 'Ranking'),
-
-                  // Podium
                   SizedBox(
                     height: 165,
                     child: Row(
@@ -415,13 +398,10 @@ class _BoulderDetailsSuccessViewState extends State<BoulderDetailsSuccessView> {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 8),
                   const AppDivider(
                     verticalPadding: 5,
                   ),
-
-                  // Lista rankingu
                   ListView.separated(
                     shrinkWrap: true,
                     itemCount: 5,
