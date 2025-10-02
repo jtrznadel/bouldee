@@ -14,10 +14,9 @@ class HomeLastSession extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AppSectionHeader(
+        const AppSectionHeader(
           title: 'Ostatnia sesja',
           buttonText: 'Zobacz więcej',
-          onButtonPressed: () {},
         ),
         AppTile(
           child: Column(

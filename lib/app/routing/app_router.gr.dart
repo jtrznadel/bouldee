@@ -35,10 +35,10 @@ class BoulderDetailsRoute extends _i10.PageRouteInfo<BoulderDetailsRouteArgs> {
     _i11.Key? key,
     List<_i10.PageRouteInfo>? children,
   }) : super(
-         BoulderDetailsRoute.name,
-         args: BoulderDetailsRouteArgs(boulderId: boulderId, key: key),
-         initialChildren: children,
-       );
+          BoulderDetailsRoute.name,
+          args: BoulderDetailsRouteArgs(boulderId: boulderId, key: key),
+          initialChildren: children,
+        );
 
   static const String name = 'BoulderDetailsRoute';
 
@@ -72,11 +72,11 @@ class ClubMapRoute extends _i10.PageRouteInfo<ClubMapRouteArgs> {
     _i11.Key? key,
     List<_i10.PageRouteInfo>? children,
   }) : super(
-         ClubMapRoute.name,
-         args: ClubMapRouteArgs(clubId: clubId, key: key),
-         rawPathParams: {'clubId': clubId},
-         initialChildren: children,
-       );
+          ClubMapRoute.name,
+          args: ClubMapRouteArgs(clubId: clubId, key: key),
+          rawPathParams: {'clubId': clubId},
+          initialChildren: children,
+        );
 
   static const String name = 'ClubMapRoute';
 
@@ -109,7 +109,7 @@ class ClubMapRouteArgs {
 /// [_i3.CurrentTrainingSessionPage]
 class CurrentTrainingSessionRoute extends _i10.PageRouteInfo<void> {
   const CurrentTrainingSessionRoute({List<_i10.PageRouteInfo>? children})
-    : super(CurrentTrainingSessionRoute.name, initialChildren: children);
+      : super(CurrentTrainingSessionRoute.name, initialChildren: children);
 
   static const String name = 'CurrentTrainingSessionRoute';
 
@@ -125,14 +125,14 @@ class CurrentTrainingSessionRoute extends _i10.PageRouteInfo<void> {
 /// [_i4.HomePage]
 class HomeRoute extends _i10.PageRouteInfo<void> {
   const HomeRoute({List<_i10.PageRouteInfo>? children})
-    : super(HomeRoute.name, initialChildren: children);
+      : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
   static _i10.PageInfo page = _i10.PageInfo(
     name,
     builder: (data) {
-      return const _i4.HomePage();
+      return _i4.HomePage();
     },
   );
 }
@@ -141,7 +141,7 @@ class HomeRoute extends _i10.PageRouteInfo<void> {
 /// [_i5.NavigationWrapperPage]
 class NavigationWrapperRoute extends _i10.PageRouteInfo<void> {
   const NavigationWrapperRoute({List<_i10.PageRouteInfo>? children})
-    : super(NavigationWrapperRoute.name, initialChildren: children);
+      : super(NavigationWrapperRoute.name, initialChildren: children);
 
   static const String name = 'NavigationWrapperRoute';
 
@@ -157,7 +157,7 @@ class NavigationWrapperRoute extends _i10.PageRouteInfo<void> {
 /// [_i6.OnboardingPage]
 class OnboardingRoute extends _i10.PageRouteInfo<void> {
   const OnboardingRoute({List<_i10.PageRouteInfo>? children})
-    : super(OnboardingRoute.name, initialChildren: children);
+      : super(OnboardingRoute.name, initialChildren: children);
 
   static const String name = 'OnboardingRoute';
 
@@ -173,7 +173,7 @@ class OnboardingRoute extends _i10.PageRouteInfo<void> {
 /// [_i7.ProfilePage]
 class ProfileRoute extends _i10.PageRouteInfo<void> {
   const ProfileRoute({List<_i10.PageRouteInfo>? children})
-    : super(ProfileRoute.name, initialChildren: children);
+      : super(ProfileRoute.name, initialChildren: children);
 
   static const String name = 'ProfileRoute';
 
@@ -189,7 +189,7 @@ class ProfileRoute extends _i10.PageRouteInfo<void> {
 /// [_i8.SignInPage]
 class SignInRoute extends _i10.PageRouteInfo<void> {
   const SignInRoute({List<_i10.PageRouteInfo>? children})
-    : super(SignInRoute.name, initialChildren: children);
+      : super(SignInRoute.name, initialChildren: children);
 
   static const String name = 'SignInRoute';
 
@@ -205,7 +205,7 @@ class SignInRoute extends _i10.PageRouteInfo<void> {
 /// [_i9.SignUpPage]
 class SignUpRoute extends _i10.PageRouteInfo<void> {
   const SignUpRoute({List<_i10.PageRouteInfo>? children})
-    : super(SignUpRoute.name, initialChildren: children);
+      : super(SignUpRoute.name, initialChildren: children);
 
   static const String name = 'SignUpRoute';
 

@@ -21,7 +21,7 @@ class AppSectionHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: context.textTheme.labelLarge
+          style: context.textTheme.labelMedium
               ?.copyWith(color: AppColors.textLight),
         ),
         if (buttonText != null && onButtonPressed != null)

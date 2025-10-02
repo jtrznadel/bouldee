@@ -2,7 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:bouldee/app/constants/app_colors.dart';
 import 'package:bouldee/app/constants/app_media_resources.dart';
 import 'package:bouldee/app/constants/app_sizes.dart';
+import 'package:bouldee/app/extensions/context_extensions.dart';
+import 'package:bouldee/app/widgets/app_page_indicator.dart';
 import 'package:bouldee/app/widgets/app_premium_logo.dart';
+import 'package:bouldee/app/widgets/app_section_header.dart';
 import 'package:bouldee/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:bouldee/features/home/presentation/widgets/home_last_session.dart';
 import 'package:bouldee/features/home/presentation/widgets/home_mini_stats.dart';
@@ -14,7 +17,11 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 @RoutePage()
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  final PageController pageController = PageController(
+    viewportFraction: 0.8,
+  );
 
   void _showPremiumModal(BuildContext context) {
     Navigator.of(context).push(
@@ -99,18 +106,74 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
             horizontal: AppSizes.defaultHorizontalPadding,
             vertical: 10,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 10,
             children: [
-              HomeMiniStats(),
-              HomeLastSession(),
+              const AppSectionHeader(
+                title: 'Nadchodzące wydarzenia',
+              ),
+              Column(
+                children: [
+                  IntrinsicHeight(
+                    child: OverflowBox(
+                      maxWidth: context.width,
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 160,
+                        child: SizedBox(
+                          child: PageView.builder(
+                            padEnds: false,
+                            pageSnapping: false,
+                            itemCount: 5,
+                            controller: pageController,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(
+                                  left: AppSizes.defaultHorizontalPadding,
+                                  bottom: 10,
+                                  top: 10,
+                                ),
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black38,
+                                        blurRadius: 4,
+                                        spreadRadius: 1,
+                                        offset: Offset(4, 4),
+                                      ),
+                                    ],
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                        AppMediaRes.deffaultBoulderImage,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(20),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  AppPageIndicator(
+                    totalPages: 5,
+                    pageController: pageController,
+                  ),
+                ],
+              ),
             ],
           ),
         ),
